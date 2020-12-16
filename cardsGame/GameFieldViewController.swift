@@ -8,6 +8,13 @@
 import UIKit
 
 
+enum Direction {
+    case right
+    case left
+    case up
+    case down
+}
+
 enum CardType {
     case spades
     case clubs
@@ -36,23 +43,29 @@ struct Card {
     var image: UIImage
 }
 
-struct PlayerCards {
-    
+enum PlayerOrder {
+    case first
+    case second
+    case third
+    case fourth
 }
 
 struct Player {
     let name: String
     let image: UIImage
     var isPlaying: Bool
+    let order: PlayerOrder
+    var presentedCardsCounter = 0
     
     var cards: [Card]
     var eqlueCards = [[Card]]()
     var unEqlueCards = [[Card]]()
     var combination = CardsCombination.none
     
-    init(name: String, image: UIImage, cards: [Card], isPlaying: Bool = false) {
+    init(name: String, image: UIImage, order: PlayerOrder, cards: [Card], isPlaying: Bool = false) {
         self.name = name
         self.image = image
+        self.order = order
         self.cards = cards
         self.isPlaying = isPlaying
         //seperat the eqlue and not eqlue cards
@@ -100,6 +113,10 @@ class GameFieldViewController: UIViewController {
     @IBOutlet var player3CardsImages: [DesignableImage]!
     @IBOutlet var player4CardsImages: [DesignableImage]!
     
+    
+    
+    @IBOutlet var centreCardsImages: [DesignableImage]!
+    
     var gameCards = [
         Card(type: .spades, name: .ace, image: #imageLiteral(resourceName: "ace♠️")),
         Card(type: .spades, name: .king, image: #imageLiteral(resourceName: "king♠️")),
@@ -127,26 +144,13 @@ class GameFieldViewController: UIViewController {
     var player3: Player?
     var player4: Player?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    @IBOutlet weak var startTheRoundButton: UIButton!
+    @IBAction func startTheRound(_ sender: Any) {
         //start the game
-        
-        gameCards.shuffle()
-        let player1Cards = Array(gameCards[0...3])
-        let player2Cards = Array(gameCards[4...7])
-        let player3Cards = Array(gameCards[8...11])
-        let player4Cards = Array(gameCards[12...15])
-        player1 = Player(name: "Azzam", image: #imageLiteral(resourceName: "profile-image"), cards: player1Cards, isPlaying: true)
-        player2 = Player(name: "Ahmad", image: #imageLiteral(resourceName: "profile-image"), cards: player2Cards)
-        player3 = Player(name: "Omar", image: #imageLiteral(resourceName: "profile-image"), cards: player3Cards)
-        player4 = Player(name: "Ammar", image: #imageLiteral(resourceName: "profile-image"), cards: player4Cards)
-        
-        for i in 0...3 {
-            player1CardsImages[i].image = (player1?.cards[i].image)!
-            player2CardsImages[i].image = (player2?.cards[i].image)!
-            player3CardsImages[i].image = (player3?.cards[i].image)!
-            player4CardsImages[i].image = (player4?.cards[i].image)!
-        }
+        //...
+        startTheRoundButton.isEnabled = false
+        shuffleCards()
         
         print(player1!.name, player1!.calculatePoints())
         print(player2!.name, player2!.calculatePoints())
@@ -154,6 +158,111 @@ class GameFieldViewController: UIViewController {
         print(player4!.name, player4!.calculatePoints())
         
         print("the winner is:", calculateWinner())
+    }
+    
+    func presentCardAnimation(player: Player) {
+        guard player.presentedCardsCounter < 4 else { return }
+        UIView.animate(withDuration: 0.3) {
+            switch player.order {
+            case .first:
+                self.player1CardsImages[player.presentedCardsCounter].center.y -= 200
+            case .second:
+                self.player2CardsImages[player.presentedCardsCounter].center.x -= 100
+            case .third:
+                self.player3CardsImages[player.presentedCardsCounter].center.y += 100
+            case .fourth:
+                self.player4CardsImages[player.presentedCardsCounter].center.x += 100
+            }
+        }
+    }
+    
+    var numberOfCardsInTheRound = 15
+    fileprivate func throwCardAnimation(to direction: Direction?) {
+        //animation
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) {
+            if let direction = direction {
+                self.centreCardsImages[0].rotation = 180
+                switch direction {
+                case .down:
+                    self.centreCardsImages[0].center = CGPoint(x: self.view.frame.midX , y: self.view.frame.maxY * 1.3)
+                    self.presentCardAnimation(player: self.player1!)
+                    self.player1!.presentedCardsCounter += 1
+                case .right:
+                    self.centreCardsImages[0].center = CGPoint(x: self.view.frame.maxX * 1.5, y: self.view.frame.midY)
+                    self.presentCardAnimation(player: self.player2!)
+                    self.player2!.presentedCardsCounter += 1
+                case .up:
+                    self.centreCardsImages[0].center = CGPoint(x: self.view.frame.midX , y: -self.view.frame.maxY * 1.3)
+                    self.presentCardAnimation(player: self.player3!)
+                    self.player3!.presentedCardsCounter += 1
+                case .left:
+                    self.centreCardsImages[0].center = CGPoint(x: -self.view.frame.maxX * 1.5, y: self.view.frame.midY)
+                    self.presentCardAnimation(player: self.player4!)
+                    self.player4!.presentedCardsCounter += 1
+                }
+            }
+        } completion: { _ in
+            self.centreCardsImages[0].transform = .identity
+            self.centreCardsImages[0].center = self.view.center
+            
+            switch self.numberOfCardsInTheRound % 4 {
+            case 0:
+                self.throwCardAnimation(to: .down)
+            case 1:
+                self.throwCardAnimation(to: .left)
+            case 2:
+                self.throwCardAnimation(to: .up)
+            case 3:
+                self.throwCardAnimation(to: .right)
+            default:
+                print(" completed throwing all cards")
+                self.numberOfCardsInTheRound = 15
+                self.startTheRoundButton.isEnabled = true
+            }
+            self.numberOfCardsInTheRound -= 1
+            
+        }
+    }
+    
+    fileprivate func throwingCardsAnimation() {
+        
+        throwCardAnimation(to: nil)
+        
+
+    }
+    
+    fileprivate func shuffleCards() {
+        
+        //cards shuffling
+        gameCards.shuffle()
+        
+        // cards distribution
+        let player1Cards = Array(gameCards[0...3])
+        let player2Cards = Array(gameCards[4...7])
+        let player3Cards = Array(gameCards[8...11])
+        let player4Cards = Array(gameCards[12...15])
+        
+        player1 = Player(name: "Azzam", image: #imageLiteral(resourceName: "profile-image"), order: .first, cards: player1Cards, isPlaying: true)
+        player2 = Player(name: "Ahmad", image: #imageLiteral(resourceName: "profile-image"), order: .second, cards: player2Cards)
+        player3 = Player(name: "Omar", image: #imageLiteral(resourceName: "profile-image"), order: .third, cards: player3Cards)
+        player4 = Player(name: "Ammar", image: #imageLiteral(resourceName: "profile-image"), order: .fourth, cards: player4Cards)
+        
+        
+        for i in 0...3 {
+            player1CardsImages[i].image = (player1?.cards[i].image)!
+            player2CardsImages[i].image = #imageLiteral(resourceName: "back🟥")
+            player3CardsImages[i].image = #imageLiteral(resourceName: "back🟥")
+            player4CardsImages[i].image = #imageLiteral(resourceName: "back🟥")
+        }
+        
+        throwingCardsAnimation()
+
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         
     }
 
