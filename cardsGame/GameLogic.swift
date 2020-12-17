@@ -7,8 +7,9 @@
 
 import UIKit
 
+/// MARK: combinations Logic
 /*
- 
+
  Top combinations
  A♠️ A♣️ A♥️ A♦️
  K♠️ K♣️ K♥️ K♦️
@@ -152,5 +153,47 @@ func calculatePlayerPoints(with cards: PlayerCards) -> Int {
  
  return plyerPints
 }
+ 
+ */
+
+
+/// MARK: player Bet-value logic
+/*
+ 
+ if player is the first player {
+ 
+    bets shuold start form 100 to hes coins
+ 
+ } else {
+    if previous player's bit is less the current player coins {
+        bets shuold start form the (previous player's bit + 100) to the current player coins
+    } else {
+        bets shuold start form 100 to hes coins
+    }
+ 
+}
+
+ func getPossibleBets() -> [Int] {
+     var possibleBets = [Int]()
+ 
+     switch player.order {
+        case .first:
+         var bet = coins
+         while bet > 0 {
+             possibleBets.append(bet)
+             bet -= 100
+         }
+        case .second:
+        case .third:
+        case .fourth:
+     }
+     
+ 
+     return possibleBets.reversed()
+ }
+ 
+ }
+ 
+ 
  
  */
