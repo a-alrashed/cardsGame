@@ -231,7 +231,7 @@ class GameFieldViewController: UIViewController {
     @IBOutlet var betBubbleLabels: [UILabel]!
     
     func presentBetAnimation(for player: Player) {
-        betBubbleLabels[player.direction.rawValue].text = String(player.currentRoundBet)
+        betBubbleLabels[0].text = "100"
         switch player.direction {
         case .down:
             print("player1 placed a bit")
@@ -247,19 +247,26 @@ class GameFieldViewController: UIViewController {
         }
     }
     
+    
+    @IBOutlet var player1CardsImagesBottomConstraint: [NSLayoutConstraint]!
+    @IBOutlet var player2CardsImagesTraillingConstraint: [NSLayoutConstraint]!
+    @IBOutlet var player3CardsImagesTopConstraint: [NSLayoutConstraint]!
+    @IBOutlet var player4CardsImagesLeadingConstraint: [NSLayoutConstraint]!
+    
     func presentCardAnimation(player: Player) {
         guard player.presentedCardsCounter < 4 else { return }
         UIView.animate(withDuration: 0.3) {
             switch player.direction {
             case .down:
-                self.player1CardsImages[player.presentedCardsCounter].center.y -= 200
+                self.player1CardsImagesBottomConstraint[player.presentedCardsCounter].constant = -20
             case .right:
-                self.player2CardsImages[player.presentedCardsCounter].center.x -= 100
+                self.player2CardsImagesTraillingConstraint[player.presentedCardsCounter].constant = -20
             case .up:
-                self.player3CardsImages[player.presentedCardsCounter].center.y += 100
+                self.player3CardsImagesTopConstraint[player.presentedCardsCounter].constant = -30
             case .left:
-                self.player4CardsImages[player.presentedCardsCounter].center.x += 100
+                self.player4CardsImagesLeadingConstraint[player.presentedCardsCounter].constant = -20
             }
+            self.view.layoutIfNeeded()
         }
     }
     
@@ -268,60 +275,68 @@ class GameFieldViewController: UIViewController {
         UIView.animate(withDuration: 0.3) {
             switch player.direction {
             case .down:
-                self.player1CardsImages[0].center.y += 200
-                self.player1CardsImages[1].center.y += 200
-                self.player1CardsImages[2].center.y += 200
-                self.player1CardsImages[3].center.y += 200
+                self.player1CardsImagesBottomConstraint[0].constant = -240
+                self.player1CardsImagesBottomConstraint[1].constant = -240
+                self.player1CardsImagesBottomConstraint[2].constant = -240
+                self.player1CardsImagesBottomConstraint[3].constant = -240
             case .right:
-                self.player2CardsImages[0].center.x += 100
-                self.player2CardsImages[1].center.x += 100
-                self.player2CardsImages[2].center.x += 100
-                self.player2CardsImages[3].center.x += 100
+                self.player2CardsImagesTraillingConstraint[0].constant = -120
+                self.player2CardsImagesTraillingConstraint[1].constant = -120
+                self.player2CardsImagesTraillingConstraint[2].constant = -120
+                self.player2CardsImagesTraillingConstraint[3].constant = -120
             case .up:
-                self.player3CardsImages[0].center.y -= 100
-                self.player3CardsImages[1].center.y -= 100
-                self.player3CardsImages[2].center.y -= 100
-                self.player3CardsImages[3].center.y -= 100
+                self.player3CardsImagesTopConstraint[0].constant = -120
+                self.player3CardsImagesTopConstraint[1].constant = -120
+                self.player3CardsImagesTopConstraint[2].constant = -120
+                self.player3CardsImagesTopConstraint[3].constant = -120
             case .left:
-                self.player4CardsImages[0].center.x -= 100
-                self.player4CardsImages[1].center.x -= 100
-                self.player4CardsImages[2].center.x -= 100
-                self.player4CardsImages[3].center.x -= 100
+                self.player4CardsImagesLeadingConstraint[0].constant = -120
+                self.player4CardsImagesLeadingConstraint[1].constant = -120
+                self.player4CardsImagesLeadingConstraint[2].constant = -120
+                self.player4CardsImagesLeadingConstraint[3].constant = -120
             }
+            self.view.layoutIfNeeded()
         }
     }
+    
+    
+    @IBOutlet var centreCardsXConstraint: [NSLayoutConstraint]!
+    @IBOutlet var centreCardsYConstraint: [NSLayoutConstraint]!
     
     var numberOfCardsInTheRound = 16
     fileprivate func throwCardAnimation(to order: PlayerOrder?) {
         //animation
         
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) {
+        UIView.animate(withDuration: 0.75, delay: 0, options: .curveEaseOut) {
             if let order = order {
                 self.centreCardsImages[0].rotation = 180
                 switch order {
                 case self.player1!.order:
-                    self.centreCardsImages[0].center = CGPoint(x: self.view.frame.midX , y: self.view.frame.maxY * 1.3)
+                    self.centreCardsYConstraint[0].constant = self.view.frame.maxY * 1.3
                     self.presentCardAnimation(player: self.player1!)
                     self.player1!.presentedCardsCounter += 1
                 case self.player2!.order:
-                    self.centreCardsImages[0].center = CGPoint(x: self.view.frame.maxX * 1.5, y: self.view.frame.midY)
+                    self.centreCardsXConstraint[0].constant = self.view.frame.maxX * 1.5
                     self.presentCardAnimation(player: self.player2!)
                     self.player2!.presentedCardsCounter += 1
                 case self.player3!.order:
-                    self.centreCardsImages[0].center = CGPoint(x: self.view.frame.midX , y: -self.view.frame.maxY * 1.3)
+                    self.centreCardsYConstraint[0].constant = -self.view.frame.maxY * 1.3
                     self.presentCardAnimation(player: self.player3!)
                     self.player3!.presentedCardsCounter += 1
                 case self.player4!.order:
-                    self.centreCardsImages[0].center = CGPoint(x: -self.view.frame.maxX * 1.5, y: self.view.frame.midY)
+                    self.centreCardsXConstraint[0].constant = -self.view.frame.maxX * 1.5
                     self.presentCardAnimation(player: self.player4!)
                     self.player4!.presentedCardsCounter += 1
                 default:
                     print("something is not right with the players order or the value that was passed to the throwCardAnimation function")
                 }
             }
+            self.view.layoutIfNeeded()
         } completion: { _ in
             self.centreCardsImages[0].transform = .identity
-            self.centreCardsImages[0].center = self.view.center
+            self.centreCardsXConstraint[0].constant = 0
+            self.centreCardsYConstraint[0].constant = 0
+            self.view.layoutIfNeeded()
             self.numberOfCardsInTheRound -= 1
             switch self.numberOfCardsInTheRound % 4 {
             case 0:
