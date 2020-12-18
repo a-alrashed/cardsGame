@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 enum Direction: Int {
     case down = 0
     case right = 1
@@ -240,26 +239,25 @@ class GameFieldViewController: UIViewController {
     // 0 = down , 1 = right, 2 = up, 3 = left
     @IBOutlet var betBubbleViews: [UIView]!
     @IBOutlet var betBubbleLabels: [UILabel]!
+    @IBOutlet var betBubbleViewsWidthConstraint: [NSLayoutConstraint]!
     
     func presentBetAnimation(for player: Player) {
-        betBubbleLabels[player.direction.rawValue].text = String(player.currentRoundBet)
-        UIView.animate(withDuration: 0.5, delay: 0,  usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut) {
-            switch player.direction {
-            case .down:
-                print("player1 placed a bit")
-                
-            case .right:
-                print("player2 placed a bet")
-                
-            case .up:
-                print("player3 placed a bet")
-                
-            case .left:
-                print("player4 placed a bet")
-                
-            }
+        let playerIndex = player.direction.rawValue
+        betBubbleLabels[playerIndex].text = String(player.currentRoundBet)
+        betBubbleViews[playerIndex].isHidden = false
+        UIView.animate(withDuration: 1, delay: 0,  usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut) {
+            self.betBubbleViews[playerIndex].alpha = 1
+            self.betBubbleViewsWidthConstraint[playerIndex].constant = 170
+            self.betBubbleLabels[playerIndex].font = self.betBubbleLabels[playerIndex].font.withSize(20)
+            self.view.layoutIfNeeded()
         } completion: { _ in
-            self.nextTurn(from: player)
+            UIView.animate(withDuration: 0.5) {
+                self.betBubbleViewsWidthConstraint[playerIndex].constant = 100
+                self.betBubbleLabels[playerIndex].font = self.betBubbleLabels[playerIndex].font.withSize(15)
+                self.view.layoutIfNeeded()
+            } completion: { _ in
+                self.nextTurn(from: player)
+            }
         }
         
     }
@@ -301,11 +299,17 @@ class GameFieldViewController: UIViewController {
     @IBOutlet var player3CardsImagesTopConstraint: [NSLayoutConstraint]!
     @IBOutlet var player4CardsImagesLeadingConstraint: [NSLayoutConstraint]!
     
-    func hideAllCardsAnimation() {
+    func hideAllCardsAndBetBubbelsAnimation() {
+        
         player1!.presentedCardsCounter = 0
         player2!.presentedCardsCounter = 0
         player3!.presentedCardsCounter = 0
         player4!.presentedCardsCounter = 0
+        
+        player1!.currentRoundBet = 0
+        player2!.currentRoundBet = 0
+        player3!.currentRoundBet = 0
+        player4!.currentRoundBet = 0
         UIView.animate(withDuration: 0.3) {
             self.player1CardsImagesBottomConstraint[0].constant = -240
             self.player1CardsImagesBottomConstraint[1].constant = -240
@@ -326,8 +330,18 @@ class GameFieldViewController: UIViewController {
             self.player4CardsImagesLeadingConstraint[1].constant = -120
             self.player4CardsImagesLeadingConstraint[2].constant = -120
             self.player4CardsImagesLeadingConstraint[3].constant = -120
+            
+            self.betBubbleViews[0].alpha = 0
+            self.betBubbleViews[1].alpha = 0
+            self.betBubbleViews[2].alpha = 0
+            self.betBubbleViews[3].alpha = 0
 
             self.view.layoutIfNeeded()
+        } completion: { _ in
+            self.betBubbleViews[0].isHidden = true
+            self.betBubbleViews[1].isHidden = true
+            self.betBubbleViews[2].isHidden = true
+            self.betBubbleViews[3].isHidden = true
         }
     }
     
@@ -460,7 +474,7 @@ class GameFieldViewController: UIViewController {
         default:
             print("### something is not right with the roundCounter")
         }
-        hideAllCardsAnimation()
+        hideAllCardsAndBetBubbelsAnimation()
         throwCardAnimation(to: nil)
         
         roundCounter += 1
