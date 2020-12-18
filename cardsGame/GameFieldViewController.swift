@@ -182,47 +182,58 @@ class GameFieldViewController: UIViewController {
     
     @IBAction func withdrawalFromRoundAction(_ sender: Any) {
         actionsStackView.isHidden = true
-        hideCardAnimation(player: player1!)
+        withdrawalAnimation(for: player1!)
         player1!.presentedCardsCounter = 0
         print("You have withdrawn from the round")
-        
-        nextTurn(from: player1!)
-    }
-    
-    @IBOutlet weak var startTheRoundButton: UIButton!
-    @IBAction func startTheRound(_ sender: Any) {
-        //start the game
-        //...
-        startTheRoundButton.isEnabled = false
-        shuffleCards()
-        
-        
-        player1!.seperateEqlueCards()
-        player2!.seperateEqlueCards()
-        player3!.seperateEqlueCards()
-        player4!.seperateEqlueCards()
-        print(player1!.name, player1!.calculateRoundPoints())
-        print(player2!.name, player2!.calculateRoundPoints())
-        print(player3!.name, player3!.calculateRoundPoints())
-        print(player4!.name, player4!.calculateRoundPoints())
-        
-        print("the winner is:", calculateWinner())
     }
     
     func presentChatView() {
         //do some animation to present the chatView
+        //do some logic to determen the winner
+        //... after all that allow the next round to begin
+        self.startTheRoundButton.isEnabled = true
+        //startTheRound(self)
     }
     
-    fileprivate func nextTurn(from player: Player) {
+    fileprivate func aiPlayerAction(for player: inout Player) {
+        player.determinePossibleBets()
+        //if there is no possibleBets than let the player withdraw AKA withdrawalAnimation
+        guard player.possibleBets.count != 0 else {
+            withdrawalAnimation(for: player)
+            return
+        }
+        let aiLuckyNumber = Int.random(in: 0...player.possibleBets.count)
+        let randomNumber = Int.random(in: 2...4)
+        if aiLuckyNumber % randomNumber == 0 {
+            player.currentRoundBet = player.possibleBets[aiLuckyNumber]
+            presentBetAnimation(for: player)
+        } else {
+            withdrawalAnimation(for: player)
+        }
+    }
+    
+    fileprivate func nextTurn(from player: Player, newRound: Bool = false) {
+        do {
+            sleep(4)
+        }
         switch player.order {
-        case .fourth:
+        case .fourth where newRound == false:
             print("start the negotiations")
             presentChatView()
-        case .first,.second,.third:
+        case .first,.second,.third, .fourth:
             print("its the next players turn")
-            
+            switch player.direction {
+            case .down:
+                aiPlayerAction(for: &player2!)
+            case .right:
+                aiPlayerAction(for: &player3!)
+            case .up:
+                aiPlayerAction(for: &player4!)
+            case .left:
+                self.actionsStackView.isHidden = false
+            }
         default:
-            print("something is not right with the value that was passed to nextTurn function")
+            print("### something is not right with the player order that was passed to nextTurn function")
         }
     }
     
@@ -231,46 +242,29 @@ class GameFieldViewController: UIViewController {
     @IBOutlet var betBubbleLabels: [UILabel]!
     
     func presentBetAnimation(for player: Player) {
-        betBubbleLabels[0].text = "100"
-        switch player.direction {
-        case .down:
-            print("player1 placed a bit")
-            UIView.animate(withDuration: 0.3, delay: 0,  usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut) {
-                
-            }
-        case .right:
-            print("player2 placed a bet")
-        case .up:
-            print("player3 placed a bet")
-        case .left:
-            print("player4 placed a bet")
-        }
-    }
-    
-    
-    @IBOutlet var player1CardsImagesBottomConstraint: [NSLayoutConstraint]!
-    @IBOutlet var player2CardsImagesTraillingConstraint: [NSLayoutConstraint]!
-    @IBOutlet var player3CardsImagesTopConstraint: [NSLayoutConstraint]!
-    @IBOutlet var player4CardsImagesLeadingConstraint: [NSLayoutConstraint]!
-    
-    func presentCardAnimation(player: Player) {
-        guard player.presentedCardsCounter < 4 else { return }
-        UIView.animate(withDuration: 0.3) {
+        betBubbleLabels[player.direction.rawValue].text = String(player.currentRoundBet)
+        UIView.animate(withDuration: 0.5, delay: 0,  usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut) {
             switch player.direction {
             case .down:
-                self.player1CardsImagesBottomConstraint[player.presentedCardsCounter].constant = -20
+                print("player1 placed a bit")
+                
             case .right:
-                self.player2CardsImagesTraillingConstraint[player.presentedCardsCounter].constant = -20
+                print("player2 placed a bet")
+                
             case .up:
-                self.player3CardsImagesTopConstraint[player.presentedCardsCounter].constant = -30
+                print("player3 placed a bet")
+                
             case .left:
-                self.player4CardsImagesLeadingConstraint[player.presentedCardsCounter].constant = -20
+                print("player4 placed a bet")
+                
             }
-            self.view.layoutIfNeeded()
+        } completion: { _ in
+            self.nextTurn(from: player)
         }
+        
     }
     
-    func hideCardAnimation(player: Player) {
+    func withdrawalAnimation(for player: Player) {
         guard player.presentedCardsCounter == 4 else { return }
         UIView.animate(withDuration: 0.3) {
             switch player.direction {
@@ -296,17 +290,69 @@ class GameFieldViewController: UIViewController {
                 self.player4CardsImagesLeadingConstraint[3].constant = -120
             }
             self.view.layoutIfNeeded()
+        } completion: { _ in
+            self.nextTurn(from: player)
         }
     }
     
+    
+    @IBOutlet var player1CardsImagesBottomConstraint: [NSLayoutConstraint]!
+    @IBOutlet var player2CardsImagesTraillingConstraint: [NSLayoutConstraint]!
+    @IBOutlet var player3CardsImagesTopConstraint: [NSLayoutConstraint]!
+    @IBOutlet var player4CardsImagesLeadingConstraint: [NSLayoutConstraint]!
+    
+    func hideAllCardsAnimation() {
+        player1!.presentedCardsCounter = 0
+        player2!.presentedCardsCounter = 0
+        player3!.presentedCardsCounter = 0
+        player4!.presentedCardsCounter = 0
+        UIView.animate(withDuration: 0.3) {
+            self.player1CardsImagesBottomConstraint[0].constant = -240
+            self.player1CardsImagesBottomConstraint[1].constant = -240
+            self.player1CardsImagesBottomConstraint[2].constant = -240
+            self.player1CardsImagesBottomConstraint[3].constant = -240
+            
+            self.player2CardsImagesTraillingConstraint[0].constant = -120
+            self.player2CardsImagesTraillingConstraint[1].constant = -120
+            self.player2CardsImagesTraillingConstraint[2].constant = -120
+            self.player2CardsImagesTraillingConstraint[3].constant = -120
+            
+            self.player3CardsImagesTopConstraint[0].constant = -120
+            self.player3CardsImagesTopConstraint[1].constant = -120
+            self.player3CardsImagesTopConstraint[2].constant = -120
+            self.player3CardsImagesTopConstraint[3].constant = -120
+            
+            self.player4CardsImagesLeadingConstraint[0].constant = -120
+            self.player4CardsImagesLeadingConstraint[1].constant = -120
+            self.player4CardsImagesLeadingConstraint[2].constant = -120
+            self.player4CardsImagesLeadingConstraint[3].constant = -120
+
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func presentCardAnimation(player: Player) {
+        guard player.presentedCardsCounter < 4 else { return }
+        UIView.animate(withDuration: 0.3) {
+            switch player.direction {
+            case .down:
+                self.player1CardsImagesBottomConstraint[player.presentedCardsCounter].constant = -20
+            case .right:
+                self.player2CardsImagesTraillingConstraint[player.presentedCardsCounter].constant = -20
+            case .up:
+                self.player3CardsImagesTopConstraint[player.presentedCardsCounter].constant = -30
+            case .left:
+                self.player4CardsImagesLeadingConstraint[player.presentedCardsCounter].constant = -20
+            }
+            self.view.layoutIfNeeded()
+        }
+    }
     
     @IBOutlet var centreCardsXConstraint: [NSLayoutConstraint]!
     @IBOutlet var centreCardsYConstraint: [NSLayoutConstraint]!
     
     var numberOfCardsInTheRound = 16
     fileprivate func throwCardAnimation(to order: PlayerOrder?) {
-        //animation
-        
         UIView.animate(withDuration: 0.75, delay: 0, options: .curveEaseOut) {
             if let order = order {
                 self.centreCardsImages[0].rotation = 180
@@ -328,7 +374,7 @@ class GameFieldViewController: UIViewController {
                     self.presentCardAnimation(player: self.player4!)
                     self.player4!.presentedCardsCounter += 1
                 default:
-                    print("something is not right with the players order or the value that was passed to the throwCardAnimation function")
+                    print("### something is not right with the players order or the value that was passed to the throwCardAnimation function")
                 }
             }
             self.view.layoutIfNeeded()
@@ -348,16 +394,21 @@ class GameFieldViewController: UIViewController {
             case 3:
                 self.throwCardAnimation(to: .first)
             default:
-                print(" completed throwing all cards")
+                print("completed throwing all cards")
                 self.numberOfCardsInTheRound = 16
-                self.startTheRoundButton.isEnabled = true
-                self.actionsStackView.isHidden = false
+                //this will start the round from the player after the last
+                self.nextTurn(from: self.lastPlayerInRound!,newRound: true)
             }
             
             
         }
     }
     
+    
+    /* be careful when passes this value
+    because it's a struct and it will be
+     passed by Value not by reference */
+    var lastPlayerInRound: Player?
     var roundCounter = 0
     fileprivate func shuffleCards() {
         
@@ -383,30 +434,57 @@ class GameFieldViewController: UIViewController {
             player2!.order = .second
             player3!.order = .third
             player4!.order = .fourth
+            
+            lastPlayerInRound = player4!
         case 1:
             player1!.order = .fourth
             player2!.order = .first
             player3!.order = .second
             player4!.order = .third
+            
+            lastPlayerInRound = player1!
         case 2:
             player1!.order = .third
             player2!.order = .fourth
             player3!.order = .first
             player4!.order = .second
+            
+            lastPlayerInRound = player2!
         case 3:
             player1!.order = .second
             player2!.order = .third
             player3!.order = .fourth
             player4!.order = .first
+            
+            lastPlayerInRound = player3!
         default:
-            print("something is not right with the roundCounter")
+            print("### something is not right with the roundCounter")
         }
+        hideAllCardsAnimation()
+        throwCardAnimation(to: nil)
         
         roundCounter += 1
-        
-        
-        throwCardAnimation(to: nil)
 
+    }
+    
+    @IBOutlet weak var startTheRoundButton: UIButton!
+    @IBAction func startTheRound(_ sender: Any) {
+        //start the game
+        //...
+        startTheRoundButton.isEnabled = false
+        shuffleCards()
+        
+        
+        player1!.seperateEqlueCards()
+        player2!.seperateEqlueCards()
+        player3!.seperateEqlueCards()
+        player4!.seperateEqlueCards()
+        print(player1!.name, player1!.calculateRoundPoints())
+        print(player2!.name, player2!.calculateRoundPoints())
+        print(player3!.name, player3!.calculateRoundPoints())
+        print(player4!.name, player4!.calculateRoundPoints())
+        
+        print("the winner is:", calculateWinner())
     }
     
     override func viewDidLoad() {
@@ -453,7 +531,6 @@ extension GameFieldViewController: UIPickerViewAccessibilityDelegate, UIPickerVi
         player1!.currentRoundBet = player1!.possibleBets[row]
         presentBetAnimation(for: player1!)
         print("you entered the round with :",player1!.currentRoundBet)
-        nextTurn(from: player1!)
     }
     
     
