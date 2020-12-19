@@ -521,6 +521,136 @@ class GameFieldViewController: UIViewController {
         ]
         return playersPoints.sorted{ return $0.value > $1.value }.first!.key
     }
+    
+    
+    // MARK: home button
+    @IBOutlet var navigationImages: [UIImageView]!
+    @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var fingerTrackerView: UIView!
+    @IBOutlet weak var homeButtonView: DesignableView!
+    
+    
+    @IBAction func handleHomeButtonPanGestur(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: navigationView)
+        let navigationViewOriginalCenterPoint = navigationView.center
+        
+        switch sender.state {
+        case .began, .changed:
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseIn) {
+                self.fingerTrackerView.alpha = 0.7
+                self.navigationViewWidthConstraint.constant = 200
+                self.navigationView.cornerRadius = self.navigationViewWidthConstraint.constant / 2
+                self.navigationView.center = navigationViewOriginalCenterPoint
+                self.view.layoutIfNeeded()
+            }
+            fingerTrackerView.center = CGPoint(x: fingerTrackerView.center.x + translation.x, y: fingerTrackerView.center.y + translation.y)
+            sender.setTranslation(CGPoint.zero, in: navigationView)
+        case .ended:
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            if fingerTrackerView.frame.intersects(navigationImages[0].frame) {
+                print("presint the offers view Controller")
+                navigationImages[0].alpha = 1
+                navigationImages[1].alpha = 0.5
+                navigationImages[2].alpha = 0.5
+                //
+            } else if fingerTrackerView.frame.intersects(navigationImages[1].frame) {
+                print("presint the chat view Controller")
+                navigationImages[0].alpha = 0.5
+                navigationImages[1].alpha = 1
+                navigationImages[2].alpha = 0.5
+            } else if fingerTrackerView.frame.intersects(navigationImages[2].frame) {
+                print("presint the players view Controller")
+                navigationImages[0].alpha = 0.5
+                navigationImages[1].alpha = 0.5
+                navigationImages[2].alpha = 1
+            }
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseIn) {
+                self.fingerTrackerView.alpha = 0
+                self.navigationViewWidthConstraint.constant = 10
+                self.navigationView.layer.cornerRadius = self.navigationViewWidthConstraint.constant / 2
+                self.navigationView.center = navigationViewOriginalCenterPoint
+                self.view.layoutIfNeeded()
+            }
+        default:
+            break
+        }
+    }
+    
+    @IBAction func didTapHomeButton(_ sender: Any) {
+        navigationImages[0].alpha = 0.5
+        navigationImages[1].alpha = 0.5
+        navigationImages[2].alpha = 0.5
+        print("did Tap Home Button")
+        // hide the top view and navigationView
+        let navigationViewOriginalCenterPoint = navigationView.center
+        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+        UIView.animate(withDuration: 0.2) {
+            self.homeButtonView.alpha = 0.8
+            self.fingerTrackerView.alpha = 0
+            self.navigationViewWidthConstraint.constant = 10
+            self.navigationView.layer.cornerRadius = self.navigationViewWidthConstraint.constant / 2
+            self.navigationView.center = navigationViewOriginalCenterPoint
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            UIView.animate(withDuration: 0.2) {
+                self.homeButtonView.alpha = 1
+            }
+        }
+        
+    }
+    
+    
+    @IBAction func didLongPressHomeButton(_ sender: Any) {
+        let navigationViewOriginalCenterPoint = navigationView.center
+        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+        UIView.animate(withDuration: 0.2) {
+            self.homeButtonView.alpha = 0.8
+            self.navigationViewWidthConstraint.constant = 200
+            self.navigationView.layer.cornerRadius = self.navigationViewWidthConstraint.constant / 2
+            self.navigationView.center = navigationViewOriginalCenterPoint
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            UIView.animate(withDuration: 0.2) {
+                self.homeButtonView.alpha = 1
+            }
+        }
+    }
+    
+    
+    @IBAction func didTapNavimage(_ sender: UITapGestureRecognizer) {
+    
+        switch sender.view?.tag {
+        case 0:
+            print("present Offers view")
+            navigationImages[0].alpha = 1
+            navigationImages[1].alpha = 0.5
+            navigationImages[2].alpha = 0.5
+        case 1:
+            print("present chat view")
+            navigationImages[0].alpha = 0.5
+            navigationImages[1].alpha = 1
+            navigationImages[2].alpha = 0.5
+        case 2:
+            print("present players view")
+            navigationImages[0].alpha = 0.5
+            navigationImages[1].alpha = 0.5
+            navigationImages[2].alpha = 1
+        default:
+            print("error: didTapNavimage function did not expect the value that was passed to the switch statement")
+        }
+        let navigationViewOriginalCenterPoint = navigationView.center
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        UIView.animate(withDuration: 0.2) {
+            self.fingerTrackerView.alpha = 0
+            self.navigationViewWidthConstraint.constant = 10
+            self.navigationView.layer.cornerRadius = self.navigationViewWidthConstraint.constant / 2
+            self.navigationView.center = navigationViewOriginalCenterPoint
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    
 }
 
 extension GameFieldViewController: UIPickerViewAccessibilityDelegate, UIPickerViewDataSource {

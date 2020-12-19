@@ -233,7 +233,7 @@
                                 </connections>
                             </button>
                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="CC2-vZ-DcF">
-                                <rect key="frame" x="87.666666666666686" y="722" width="200" height="36"/>
+                                <rect key="frame" x="87" y="566" width="200" height="36"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iu2-G8-YUa" customClass="DesignableButton" customModule="cardsGame" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="97.333333333333329" height="36"/>
@@ -284,7 +284,7 @@
                                 </userDefinedRuntimeAttributes>
                             </stackView>
                             <view hidden="YES" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5GG-kH-MZU" userLabel="leftBetBubble">
-                                <rect key="frame" x="10" y="262.33333333333331" width="100" height="47.333333333333314"/>
+                                <rect key="frame" x="10" y="262" width="100" height="47.333333333333314"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="leftBubble" translatesAutoresizingMaskIntoConstraints="NO" id="EqL-wC-6xE">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="47.333333333333336"/>
@@ -312,7 +312,7 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2MP-2b-nrt" userLabel="upBetBubble">
-                                <rect key="frame" x="137.66666666666666" y="109" width="100" height="47"/>
+                                <rect key="frame" x="137" y="109" width="100" height="47"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="upBubble" translatesAutoresizingMaskIntoConstraints="NO" id="xAm-SM-Ahf">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="47"/>
@@ -342,7 +342,7 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0dM-La-WME" userLabel="rightBetBubble">
-                                <rect key="frame" x="265" y="262.33333333333331" width="100" height="47.333333333333314"/>
+                                <rect key="frame" x="265" y="262" width="100" height="47.333333333333314"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rightBubble" translatesAutoresizingMaskIntoConstraints="NO" id="1ex-Kz-MYi">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="47.333333333333336"/>
@@ -370,7 +370,7 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kJo-ds-W2e" userLabel="downBetBubble">
-                                <rect key="frame" x="137.66666666666666" y="565" width="100" height="47"/>
+                                <rect key="frame" x="137" y="565" width="100" height="47"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="downBubble" translatesAutoresizingMaskIntoConstraints="NO" id="wey-7z-RER">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="47"/>
@@ -399,6 +399,135 @@
                                     <constraint firstAttribute="bottom" secondItem="wey-7z-RER" secondAttribute="bottom" id="uqR-CX-357"/>
                                 </constraints>
                             </view>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zww-Xo-nLh">
+                                <rect key="frame" x="182.66666666666666" y="733" width="10" height="10"/>
+                                <subviews>
+                                    <view userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bkc-e4-mWw">
+                                        <rect key="frame" x="-20" y="-20" width="50" height="50"/>
+                                        <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.4993031483" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="5Rg-sA-WFa"/>
+                                            <constraint firstAttribute="width" secondItem="Bkc-e4-mWw" secondAttribute="height" multiplier="1:1" id="PlK-cX-TdC"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="25"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <imageView clipsSubviews="YES" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="offersView" translatesAutoresizingMaskIntoConstraints="NO" id="VIk-6f-rE8">
+                                        <rect key="frame" x="-45" y="-45" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="VIk-6f-rE8" secondAttribute="height" multiplier="1:1" id="ekv-9Y-Ipu"/>
+                                            <constraint firstAttribute="width" constant="30" id="fFz-Z3-6lu"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="ljg-h0-zBY" appends="YES" id="2et-IQ-J8d"/>
+                                        </connections>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" alpha="0.5" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chatView" translatesAutoresizingMaskIntoConstraints="NO" id="eTP-Yd-icz">
+                                        <rect key="frame" x="-10" y="10" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="TdM-mE-MVn"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="C08-bT-W9V" appends="YES" id="d1B-CF-d0Z"/>
+                                        </connections>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" alpha="0.5" tag="2" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="playersView" translatesAutoresizingMaskIntoConstraints="NO" id="nvf-OO-0FE">
+                                        <rect key="frame" x="25" y="-45" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="nvf-OO-0FE" secondAttribute="height" multiplier="1:1" id="gE5-9T-91J"/>
+                                            <constraint firstAttribute="width" constant="30" id="yf0-zi-V8s"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="l4R-Hm-bIT" appends="YES" id="Zq6-D2-i1b"/>
+                                        </connections>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.52015411850000004" green="0.042070686820000001" blue="0.30197137590000001" alpha="0.75" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="nvf-OO-0FE" firstAttribute="centerY" secondItem="zww-Xo-nLh" secondAttribute="centerY" constant="-35" id="0b3-C4-ZXO"/>
+                                    <constraint firstAttribute="trailing" secondItem="VIk-6f-rE8" secondAttribute="trailing" constant="25" id="7vI-MB-p8O"/>
+                                    <constraint firstAttribute="width" secondItem="zww-Xo-nLh" secondAttribute="height" multiplier="1:1" id="CDU-o7-HU5"/>
+                                    <constraint firstAttribute="width" constant="10" id="N4r-bA-wKy"/>
+                                    <constraint firstItem="nvf-OO-0FE" firstAttribute="leading" secondItem="zww-Xo-nLh" secondAttribute="leading" constant="25" id="PKA-Td-GUO"/>
+                                    <constraint firstItem="eTP-Yd-icz" firstAttribute="width" secondItem="eTP-Yd-icz" secondAttribute="height" multiplier="1:1" id="PpB-0m-ijp"/>
+                                    <constraint firstItem="eTP-Yd-icz" firstAttribute="top" secondItem="zww-Xo-nLh" secondAttribute="top" constant="10" id="URe-0t-x3k"/>
+                                    <constraint firstItem="Bkc-e4-mWw" firstAttribute="centerY" secondItem="zww-Xo-nLh" secondAttribute="centerY" id="gke-8c-8mD"/>
+                                    <constraint firstItem="VIk-6f-rE8" firstAttribute="centerY" secondItem="zww-Xo-nLh" secondAttribute="centerY" constant="-35" id="kgB-Ri-PkO"/>
+                                    <constraint firstItem="Bkc-e4-mWw" firstAttribute="centerX" secondItem="zww-Xo-nLh" secondAttribute="centerX" id="uUt-J2-7gY"/>
+                                    <constraint firstItem="eTP-Yd-icz" firstAttribute="centerX" secondItem="zww-Xo-nLh" secondAttribute="centerX" id="whB-Pf-PkY"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t6R-q5-LoI" customClass="DesignableView" customModule="cardsGame" customModuleProvider="target">
+                                <rect key="frame" x="157.66666666666666" y="708" width="60" height="60"/>
+                                <subviews>
+                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0dh-De-R1E" customClass="DesignableView" customModule="cardsGame" customModuleProvider="target">
+                                        <rect key="frame" x="2" y="2" width="56" height="56"/>
+                                        <subviews>
+                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5bR-JD-rB9" customClass="DesignableView" customModule="cardsGame" customModuleProvider="target">
+                                                <rect key="frame" x="5" y="5" width="46" height="46"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="23"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="topGradientColor">
+                                                        <color key="value" red="0.26185473799999998" green="0.012684504500000001" blue="0.11372818799999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="bottomGradientColor">
+                                                        <color key="value" red="0.52015411850000004" green="0.042070686820000001" blue="0.30197137590000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="5bR-JD-rB9" firstAttribute="top" secondItem="0dh-De-R1E" secondAttribute="top" constant="5" id="Okd-eP-06y"/>
+                                            <constraint firstItem="5bR-JD-rB9" firstAttribute="leading" secondItem="0dh-De-R1E" secondAttribute="leading" constant="5" id="nSf-hj-fBK"/>
+                                            <constraint firstAttribute="trailing" secondItem="5bR-JD-rB9" secondAttribute="trailing" constant="5" id="olt-V3-qgc"/>
+                                            <constraint firstAttribute="bottom" secondItem="5bR-JD-rB9" secondAttribute="bottom" constant="5" id="p2E-Na-AXM"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="28"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="topGradientColor">
+                                                <color key="value" red="0.52015411850000004" green="0.042070686820000001" blue="0.30197137590000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="bottomGradientColor">
+                                                <color key="value" red="0.26185473799999998" green="0.012684504500000001" blue="0.11372818799999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.9285210371" green="0.90787011380000004" blue="0.8156726956" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="0dh-De-R1E" firstAttribute="top" secondItem="t6R-q5-LoI" secondAttribute="top" constant="2" id="Cfn-DN-BDx"/>
+                                    <constraint firstAttribute="width" constant="60" id="F4R-l9-Bmt"/>
+                                    <constraint firstAttribute="width" secondItem="t6R-q5-LoI" secondAttribute="height" multiplier="1:1" id="Hpi-el-k7t"/>
+                                    <constraint firstItem="0dh-De-R1E" firstAttribute="leading" secondItem="t6R-q5-LoI" secondAttribute="leading" constant="2" id="Jiu-vb-QSR"/>
+                                    <constraint firstAttribute="trailing" secondItem="0dh-De-R1E" secondAttribute="trailing" constant="2" id="aiB-LZ-WBf"/>
+                                    <constraint firstAttribute="bottom" secondItem="0dh-De-R1E" secondAttribute="bottom" constant="2" id="tuw-oo-CeB"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="30"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.20000000000000001" height="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Rfe-XF-ddC" appends="YES" id="gj8-gb-ADL"/>
+                                    <outletCollection property="gestureRecognizers" destination="v6j-kW-1OC" appends="YES" id="ZA0-oB-lcP"/>
+                                    <outletCollection property="gestureRecognizers" destination="djy-7o-iPT" appends="YES" id="4WD-Cz-Vu0"/>
+                                </connections>
+                            </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VUV-MW-NF7">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="612"/>
                                 <connections>
@@ -423,6 +552,7 @@
                         <constraints>
                             <constraint firstItem="5GG-kH-MZU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="01U-le-7Gz"/>
                             <constraint firstItem="JMK-82-XkZ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="14g-L3-MZb"/>
+                            <constraint firstItem="zww-Xo-nLh" firstAttribute="centerX" secondItem="t6R-q5-LoI" secondAttribute="centerX" id="2XR-SA-pcv"/>
                             <constraint firstItem="y8i-Fo-vzV" firstAttribute="width" secondItem="y8i-Fo-vzV" secondAttribute="height" multiplier="1:1" id="2lm-5T-7Vn"/>
                             <constraint firstAttribute="trailing" secondItem="k7s-jp-0fi" secondAttribute="trailing" constant="-120" id="5d0-mS-psl"/>
                             <constraint firstItem="pWd-Dj-mph" firstAttribute="leading" secondItem="UTk-9n-kuL" secondAttribute="trailing" constant="-200" id="5yi-oD-fMW"/>
@@ -432,6 +562,7 @@
                             <constraint firstItem="asm-Y5-e7n" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="88u-pL-j08"/>
                             <constraint firstItem="03r-dN-6u3" firstAttribute="width" secondItem="03r-dN-6u3" secondAttribute="height" multiplier="1:1" id="8cW-TJ-UzZ"/>
                             <constraint firstItem="m5D-Ut-yfy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="91A-fS-p1b"/>
+                            <constraint firstItem="zww-Xo-nLh" firstAttribute="centerY" secondItem="t6R-q5-LoI" secondAttribute="centerY" id="9Wk-kW-Ity"/>
                             <constraint firstItem="695-mV-2aq" firstAttribute="leading" secondItem="whx-kD-eKl" secondAttribute="leading" id="9yb-kT-daF"/>
                             <constraint firstItem="Brj-GO-KJl" firstAttribute="width" secondItem="Brj-GO-KJl" secondAttribute="height" multiplier="1:1" id="AGC-DO-4XW"/>
                             <constraint firstItem="asm-Y5-e7n" firstAttribute="top" secondItem="kJo-ds-W2e" secondAttribute="bottom" id="Ba8-S2-7Yw"/>
@@ -449,6 +580,7 @@
                             <constraint firstItem="JMK-82-XkZ" firstAttribute="top" secondItem="atJ-Vf-IkX" secondAttribute="bottom" constant="-80" id="J5c-R6-2bb"/>
                             <constraint firstItem="BKW-i4-gjj" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-60" id="JL7-Sy-gVa"/>
                             <constraint firstItem="2MP-2b-nrt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="65" id="KmO-wk-9OU"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="t6R-q5-LoI" secondAttribute="bottom" constant="10" id="LiU-N6-PPZ"/>
                             <constraint firstAttribute="trailing" secondItem="mkd-Dk-rUb" secondAttribute="trailing" id="Ljb-yP-iTV"/>
                             <constraint firstItem="asm-Y5-e7n" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="MbD-74-Pj3"/>
                             <constraint firstItem="whx-kD-eKl" firstAttribute="width" secondItem="whx-kD-eKl" secondAttribute="height" multiplier="179:250" id="Nl5-TF-HIJ"/>
@@ -456,10 +588,11 @@
                             <constraint firstAttribute="trailing" secondItem="8ig-hs-7Zk" secondAttribute="trailing" constant="-120" id="P62-8u-5HT"/>
                             <constraint firstItem="CC2-vZ-DcF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RPU-Dr-Jb1"/>
                             <constraint firstItem="cFK-Nc-SW9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-120" id="SaR-D2-QCg"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="CC2-vZ-DcF" secondAttribute="bottom" constant="20" id="Tsl-3Y-hZ9"/>
                             <constraint firstItem="k7s-jp-0fi" firstAttribute="width" secondItem="k7s-jp-0fi" secondAttribute="height" multiplier="1:1" id="UE3-dS-UJ1"/>
                             <constraint firstItem="m5D-Ut-yfy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="VhV-nJ-Ani"/>
+                            <constraint firstItem="t6R-q5-LoI" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Vig-Af-aIK"/>
                             <constraint firstItem="y8i-Fo-vzV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="-120" id="WOi-OS-ts5"/>
+                            <constraint firstItem="zww-Xo-nLh" firstAttribute="width" secondItem="zww-Xo-nLh" secondAttribute="height" multiplier="1:1" id="WYZ-k3-UQW"/>
                             <constraint firstItem="wRL-zD-aKK" firstAttribute="width" secondItem="wRL-zD-aKK" secondAttribute="height" multiplier="1:1" id="XlN-Bu-qM2"/>
                             <constraint firstAttribute="bottom" secondItem="UTk-9n-kuL" secondAttribute="bottom" constant="-240" id="Xol-6p-suY"/>
                             <constraint firstItem="kJo-ds-W2e" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XpQ-vg-Gyt"/>
@@ -494,6 +627,7 @@
                             <constraint firstAttribute="trailing" secondItem="wRL-zD-aKK" secondAttribute="trailing" constant="-120" id="tj1-kC-wLY"/>
                             <constraint firstItem="hmU-mt-EqM" firstAttribute="width" secondItem="hmU-mt-EqM" secondAttribute="height" multiplier="1:1" id="tts-gn-scP"/>
                             <constraint firstItem="sgb-XI-KDh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="v4C-ou-Oid"/>
+                            <constraint firstItem="asm-Y5-e7n" firstAttribute="top" secondItem="CC2-vZ-DcF" secondAttribute="bottom" constant="10" id="wVM-Sz-6iJ"/>
                             <constraint firstItem="Brj-GO-KJl" firstAttribute="leading" secondItem="72P-QY-JzA" secondAttribute="trailing" constant="-80" id="wwQ-cu-v4E"/>
                             <constraint firstItem="atJ-Vf-IkX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="-120" id="yPE-BX-VB8"/>
                         </constraints>
@@ -502,6 +636,10 @@
                         <outlet property="actionsStackView" destination="CC2-vZ-DcF" id="b77-eO-JLe"/>
                         <outlet property="betPickerView" destination="asm-Y5-e7n" id="8P2-1m-e1V"/>
                         <outlet property="cancelPickerButton" destination="VUV-MW-NF7" id="e4u-MK-aAW"/>
+                        <outlet property="fingerTrackerView" destination="Bkc-e4-mWw" id="0ci-4T-jUj"/>
+                        <outlet property="homeButtonView" destination="0dh-De-R1E" id="WXU-lh-C6J"/>
+                        <outlet property="navigationView" destination="zww-Xo-nLh" id="6Xq-Fo-0E4"/>
+                        <outlet property="navigationViewWidthConstraint" destination="N4r-bA-wKy" id="1Le-q4-v4X"/>
                         <outlet property="startTheRoundButton" destination="695-mV-2aq" id="6z9-y7-ui5"/>
                         <outletCollection property="player1CardsImages" destination="pWd-Dj-mph" collectionClass="NSMutableArray" id="x2d-OK-anU"/>
                         <outletCollection property="player1CardsImages" destination="UTk-9n-kuL" collectionClass="NSMutableArray" id="88D-9y-Dap"/>
@@ -556,9 +694,42 @@
                         <outletCollection property="betBubbleViewsWidthConstraint" destination="ST5-oG-SuU" collectionClass="NSMutableArray" id="Euk-i5-j2Z"/>
                         <outletCollection property="betBubbleViewsWidthConstraint" destination="LFY-Oo-sxu" collectionClass="NSMutableArray" id="Sy8-Dm-gb2"/>
                         <outletCollection property="betBubbleViewsWidthConstraint" destination="8L1-Cj-pfo" collectionClass="NSMutableArray" id="L8n-VT-bpx"/>
+                        <outletCollection property="navigationImages" destination="VIk-6f-rE8" collectionClass="NSMutableArray" id="8Mo-zz-bQk"/>
+                        <outletCollection property="navigationImages" destination="eTP-Yd-icz" collectionClass="NSMutableArray" id="xvn-C1-rmC"/>
+                        <outletCollection property="navigationImages" destination="nvf-OO-0FE" collectionClass="NSMutableArray" id="YGC-zz-Zzi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="ljg-h0-zBY">
+                    <connections>
+                        <action selector="didTapNavimage:" destination="BYZ-38-t0r" id="WJT-Zb-Qxh"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="C08-bT-W9V">
+                    <connections>
+                        <action selector="didTapNavimage:" destination="BYZ-38-t0r" id="IR8-3q-IlN"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="l4R-Hm-bIT">
+                    <connections>
+                        <action selector="didTapNavimage:" destination="BYZ-38-t0r" id="PWr-O2-ABq"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="v6j-kW-1OC">
+                    <connections>
+                        <action selector="didTapHomeButton:" destination="BYZ-38-t0r" id="cNr-0C-QsL"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <panGestureRecognizer id="Rfe-XF-ddC">
+                    <connections>
+                        <action selector="handleHomeButtonPanGestur:" destination="BYZ-38-t0r" id="s3l-Kc-qP9"/>
+                    </connections>
+                </panGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.29999999999999999" id="djy-7o-iPT">
+                    <connections>
+                        <action selector="didLongPressHomeButton:" destination="BYZ-38-t0r" id="uLJ-gA-8qU"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="120.8" y="118.22660098522168"/>
         </scene>
@@ -632,10 +803,13 @@
         <image name="ace♦️" width="180" height="250.66667175292969"/>
         <image name="background-2" width="500" height="888"/>
         <image name="back🟥" width="179.66667175292969" height="250.66667175292969"/>
+        <image name="chatView" width="96" height="96"/>
         <image name="downBubble" width="202" height="81.666664123535156"/>
         <image name="jack♣️" width="180" height="250.66667175292969"/>
         <image name="king♠️" width="180" height="250.66667175292969"/>
         <image name="leftBubble" width="198" height="81.666664123535156"/>
+        <image name="offersView" width="96" height="96"/>
+        <image name="playersView" width="96" height="96"/>
         <image name="queen♥️" width="180" height="250.66667175292969"/>
         <image name="rightBubble" width="198.33332824707031" height="81.666664123535156"/>
         <image name="upBubble" width="197" height="86"/>
