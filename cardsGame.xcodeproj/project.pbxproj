@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8717A413258EDBB9000C04BA /* ChatMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8717A411258EDBB9000C04BA /* ChatMessageTableViewCell.swift */; };
+		8717A414258EDBB9000C04BA /* ChatMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8717A412258EDBB9000C04BA /* ChatMessageTableViewCell.xib */; };
+		8717A41A258EEA47000C04BA /* OfferTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8717A418258EEA47000C04BA /* OfferTableViewCell.swift */; };
+		8717A41B258EEA47000C04BA /* OfferTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8717A419258EEA47000C04BA /* OfferTableViewCell.xib */; };
+		8717A41F258EEBB7000C04BA /* LeaderboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8717A41E258EEBB7000C04BA /* LeaderboardTableViewCell.swift */; };
 		87BF2AF72588EF8F009B57B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BF2AF62588EF8F009B57B8 /* AppDelegate.swift */; };
 		87BF2AF92588EF8F009B57B8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BF2AF82588EF8F009B57B8 /* SceneDelegate.swift */; };
 		87BF2AFB2588EF8F009B57B8 /* GameFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BF2AFA2588EF8F009B57B8 /* GameFieldViewController.swift */; };
@@ -18,6 +23,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8717A411258EDBB9000C04BA /* ChatMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageTableViewCell.swift; sourceTree = "<group>"; };
+		8717A412258EDBB9000C04BA /* ChatMessageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatMessageTableViewCell.xib; sourceTree = "<group>"; };
+		8717A418258EEA47000C04BA /* OfferTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferTableViewCell.swift; sourceTree = "<group>"; };
+		8717A419258EEA47000C04BA /* OfferTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferTableViewCell.xib; sourceTree = "<group>"; };
+		8717A41E258EEBB7000C04BA /* LeaderboardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewCell.swift; sourceTree = "<group>"; };
 		87BF2AF32588EF8F009B57B8 /* cardsGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cardsGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87BF2AF62588EF8F009B57B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87BF2AF82588EF8F009B57B8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +51,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8717A409258ECD31000C04BA /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				8717A411258EDBB9000C04BA /* ChatMessageTableViewCell.swift */,
+				8717A41E258EEBB7000C04BA /* LeaderboardTableViewCell.swift */,
+				8717A412258EDBB9000C04BA /* ChatMessageTableViewCell.xib */,
+				8717A418258EEA47000C04BA /* OfferTableViewCell.swift */,
+				8717A419258EEA47000C04BA /* OfferTableViewCell.xib */,
+			);
+			path = cells;
+			sourceTree = "<group>";
+		};
 		87BF2AEA2588EF8F009B57B8 = {
 			isa = PBXGroup;
 			children = (
@@ -64,6 +86,7 @@
 				87BF2AF82588EF8F009B57B8 /* SceneDelegate.swift */,
 				87BF2AFA2588EF8F009B57B8 /* GameFieldViewController.swift */,
 				87BF2B1525891702009B57B8 /* GameLogic.swift */,
+				8717A409258ECD31000C04BA /* cells */,
 				87BF2AFC2588EF8F009B57B8 /* Main.storyboard */,
 				87BF2AFF2588EF93009B57B8 /* Assets.xcassets */,
 				87BF2B0B2588F464009B57B8 /* Extensions */,
@@ -138,7 +161,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8717A414258EDBB9000C04BA /* ChatMessageTableViewCell.xib in Resources */,
 				87BF2B032588EF93009B57B8 /* LaunchScreen.storyboard in Resources */,
+				8717A41B258EEA47000C04BA /* OfferTableViewCell.xib in Resources */,
 				87BF2B002588EF93009B57B8 /* Assets.xcassets in Resources */,
 				87BF2AFE2588EF8F009B57B8 /* Main.storyboard in Resources */,
 			);
@@ -151,11 +176,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8717A41A258EEA47000C04BA /* OfferTableViewCell.swift in Sources */,
 				87BF2AFB2588EF8F009B57B8 /* GameFieldViewController.swift in Sources */,
 				87BF2AF72588EF8F009B57B8 /* AppDelegate.swift in Sources */,
 				87BF2AF92588EF8F009B57B8 /* SceneDelegate.swift in Sources */,
 				87BF2B1625891702009B57B8 /* GameLogic.swift in Sources */,
+				8717A41F258EEBB7000C04BA /* LeaderboardTableViewCell.swift in Sources */,
 				87BF2B0D2588F47F009B57B8 /* myExtensions.swift in Sources */,
+				8717A413258EDBB9000C04BA /* ChatMessageTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

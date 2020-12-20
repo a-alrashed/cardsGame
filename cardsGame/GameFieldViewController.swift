@@ -7,6 +7,12 @@
 
 import UIKit
 
+enum ContentPage {
+    case leaderboard
+    case chat
+    case offers
+}
+
 enum Direction: Int {
     case down = 0
     case right = 1
@@ -187,6 +193,7 @@ class GameFieldViewController: UIViewController {
     }
     
     func presentChatView() {
+        presentContentView(with: .chat)
         //do some animation to present the chatView
         //do some logic to determen the winner
         //... after all that allow the next round to begin
@@ -195,13 +202,14 @@ class GameFieldViewController: UIViewController {
     }
     
     fileprivate func aiPlayerAction(for player: inout Player) {
+        sleep(4)
         player.determinePossibleBets()
         //if there is no possibleBets than let the player withdraw AKA withdrawalAnimation
         guard player.possibleBets.count != 0 else {
             withdrawalAnimation(for: player)
             return
         }
-        let aiLuckyNumber = Int.random(in: 0...player.possibleBets.count)
+        let aiLuckyNumber = Int.random(in: 0..<player.possibleBets.count)
         let randomNumber = Int.random(in: 2...4)
         if aiLuckyNumber % randomNumber == 0 {
             player.currentRoundBet = player.possibleBets[aiLuckyNumber]
@@ -212,9 +220,6 @@ class GameFieldViewController: UIViewController {
     }
     
     fileprivate func nextTurn(from player: Player, newRound: Bool = false) {
-        do {
-            sleep(4)
-        }
         switch player.order {
         case .fourth where newRound == false:
             print("start the negotiations")
@@ -474,6 +479,7 @@ class GameFieldViewController: UIViewController {
         default:
             print("### something is not right with the roundCounter")
         }
+        
         hideAllCardsAndBetBubbelsAnimation()
         throwCardAnimation(to: nil)
         
@@ -488,7 +494,6 @@ class GameFieldViewController: UIViewController {
         startTheRoundButton.isEnabled = false
         shuffleCards()
         
-        
         player1!.seperateEqlueCards()
         player2!.seperateEqlueCards()
         player3!.seperateEqlueCards()
@@ -498,7 +503,7 @@ class GameFieldViewController: UIViewController {
         print(player3!.name, player3!.calculateRoundPoints())
         print(player4!.name, player4!.calculateRoundPoints())
         
-        print("the winner is:", calculateWinner())
+        print("the winner is:", calculateRoundWinner())
     }
     
     override func viewDidLoad() {
@@ -509,10 +514,13 @@ class GameFieldViewController: UIViewController {
         player3 = Player(name: "Omar", image: #imageLiteral(resourceName: "profile-image"), direction: .up)
         player4 = Player(name: "Ammar", image: #imageLiteral(resourceName: "profile-image"), direction: .left)
         
+        leaderboardArray = [player1!,player2!,player3!,player4!]
+        
+        contentViewTopConstraint.constant = view.frame.size.height
+        
     }
-
     
-    func calculateWinner() -> String {
+    func calculateRoundWinner() -> String {
         let playersPoints = [
             player1!.name: player1!.calculateRoundPoints(),
             player2!.name: player2!.calculateRoundPoints(),
@@ -524,11 +532,13 @@ class GameFieldViewController: UIViewController {
     
     
     // MARK: home button
-    @IBOutlet var navigationImages: [UIImageView]!
     @IBOutlet weak var navigationView: UIView!
-    @IBOutlet weak var navigationViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var fingerTrackerView: UIView!
+    @IBOutlet var navigationImages: [UIImageView]!
     @IBOutlet weak var homeButtonView: DesignableView!
+    
+    @IBOutlet weak var navigationViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var contentViewTopConstraint: NSLayoutConstraint!
     
     
     @IBAction func handleHomeButtonPanGestur(_ sender: UIPanGestureRecognizer) {
@@ -549,21 +559,11 @@ class GameFieldViewController: UIViewController {
         case .ended:
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
             if fingerTrackerView.frame.intersects(navigationImages[0].frame) {
-                print("presint the offers view Controller")
-                navigationImages[0].alpha = 1
-                navigationImages[1].alpha = 0.5
-                navigationImages[2].alpha = 0.5
-                //
+                presentContentView(with: .offers)
             } else if fingerTrackerView.frame.intersects(navigationImages[1].frame) {
-                print("presint the chat view Controller")
-                navigationImages[0].alpha = 0.5
-                navigationImages[1].alpha = 1
-                navigationImages[2].alpha = 0.5
+                presentContentView(with: .chat)
             } else if fingerTrackerView.frame.intersects(navigationImages[2].frame) {
-                print("presint the players view Controller")
-                navigationImages[0].alpha = 0.5
-                navigationImages[1].alpha = 0.5
-                navigationImages[2].alpha = 1
+                presentContentView(with: .leaderboard)
             }
             UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseIn) {
                 self.fingerTrackerView.alpha = 0
@@ -582,12 +582,13 @@ class GameFieldViewController: UIViewController {
         navigationImages[1].alpha = 0.5
         navigationImages[2].alpha = 0.5
         print("did Tap Home Button")
-        // hide the top view and navigationView
+        // hide the contentView and navigationView
         let navigationViewOriginalCenterPoint = navigationView.center
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
         UIView.animate(withDuration: 0.2) {
             self.homeButtonView.alpha = 0.8
             self.fingerTrackerView.alpha = 0
+            self.contentViewTopConstraint.constant = self.view.frame.size.height
             self.navigationViewWidthConstraint.constant = 10
             self.navigationView.layer.cornerRadius = self.navigationViewWidthConstraint.constant / 2
             self.navigationView.center = navigationViewOriginalCenterPoint
@@ -603,7 +604,6 @@ class GameFieldViewController: UIViewController {
     
     @IBAction func didLongPressHomeButton(_ sender: Any) {
         let navigationViewOriginalCenterPoint = navigationView.center
-        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
         UIView.animate(withDuration: 0.2) {
             self.homeButtonView.alpha = 0.8
             self.navigationViewWidthConstraint.constant = 200
@@ -619,23 +619,13 @@ class GameFieldViewController: UIViewController {
     
     
     @IBAction func didTapNavimage(_ sender: UITapGestureRecognizer) {
-    
         switch sender.view?.tag {
         case 0:
-            print("present Offers view")
-            navigationImages[0].alpha = 1
-            navigationImages[1].alpha = 0.5
-            navigationImages[2].alpha = 0.5
+            presentContentView(with: .offers)
         case 1:
-            print("present chat view")
-            navigationImages[0].alpha = 0.5
-            navigationImages[1].alpha = 1
-            navigationImages[2].alpha = 0.5
+            presentContentView(with: .chat)
         case 2:
-            print("present players view")
-            navigationImages[0].alpha = 0.5
-            navigationImages[1].alpha = 0.5
-            navigationImages[2].alpha = 1
+            presentContentView(with: .leaderboard)
         default:
             print("error: didTapNavimage function did not expect the value that was passed to the switch statement")
         }
@@ -649,6 +639,82 @@ class GameFieldViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
+    
+    @IBOutlet weak var leaderboardTableView: UITableView!
+    @IBOutlet weak var chatTableView: UITableView!
+    @IBOutlet weak var offersTableView: UITableView!
+    
+    var leaderboardArray = [Player]() //Player
+    var chatMessages = [String]()   //Messages
+    var offersArray = [String]()   //Offer
+    
+    func presentContentView(with page: ContentPage) {
+        switch page {
+        case .offers:
+            print("present offers page")
+            navigationImages[0].alpha = 1
+            navigationImages[1].alpha = 0.5
+            navigationImages[2].alpha = 0.5
+            offersTableView.isHidden = false
+            chatTableView.isHidden = true
+            leaderboardTableView.isHidden = true
+        case .chat:
+            print("present chat page")
+            navigationImages[0].alpha = 0.5
+            navigationImages[1].alpha = 1
+            navigationImages[2].alpha = 0.5
+            offersTableView.isHidden = true
+            chatTableView.isHidden = false
+            leaderboardTableView.isHidden = true
+        case .leaderboard:
+            print("present leaderboard page")
+            navigationImages[0].alpha = 0.5
+            navigationImages[1].alpha = 0.5
+            navigationImages[2].alpha = 1
+            offersTableView.isHidden = true
+            chatTableView.isHidden = true
+            leaderboardTableView.isHidden = false
+        }
+        UIView.animate(withDuration: 0.2) {
+            self.contentViewTopConstraint.constant = 30
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    
+}
+
+extension GameFieldViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch tableView {
+        case leaderboardTableView:
+            return leaderboardArray.count
+        case chatTableView:
+            return chatMessages.count
+        case offersTableView:
+            return offersArray.count
+        default:
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch tableView {
+        case leaderboardTableView:
+            let cell = leaderboardTableView.dequeueReusableCell(withIdentifier: "leaderboardCell") as! LeaderboardTableViewCell
+            return cell
+        case chatTableView:
+            let cell = leaderboardTableView.dequeueReusableCell(withIdentifier: "leaderboardCell") as! LeaderboardTableViewCell
+            return cell
+        case offersTableView:
+            let cell = leaderboardTableView.dequeueReusableCell(withIdentifier: "leaderboardCell") as! LeaderboardTableViewCell
+            return cell
+        default:
+            return UITableViewCell()
+        }
+        
+    }
+    
     
     
 }
