@@ -12,6 +12,7 @@
 		8717A41A258EEA47000C04BA /* OfferTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8717A418258EEA47000C04BA /* OfferTableViewCell.swift */; };
 		8717A41B258EEA47000C04BA /* OfferTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8717A419258EEA47000C04BA /* OfferTableViewCell.xib */; };
 		8717A41F258EEBB7000C04BA /* LeaderboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8717A41E258EEBB7000C04BA /* LeaderboardTableViewCell.swift */; };
+		875F85D7259091D0001473FB /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F85D6259091D0001473FB /* SettingsTableViewCell.swift */; };
 		87BF2AF72588EF8F009B57B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BF2AF62588EF8F009B57B8 /* AppDelegate.swift */; };
 		87BF2AF92588EF8F009B57B8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BF2AF82588EF8F009B57B8 /* SceneDelegate.swift */; };
 		87BF2AFB2588EF8F009B57B8 /* GameFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BF2AFA2588EF8F009B57B8 /* GameFieldViewController.swift */; };
@@ -28,6 +29,7 @@
 		8717A418258EEA47000C04BA /* OfferTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferTableViewCell.swift; sourceTree = "<group>"; };
 		8717A419258EEA47000C04BA /* OfferTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferTableViewCell.xib; sourceTree = "<group>"; };
 		8717A41E258EEBB7000C04BA /* LeaderboardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewCell.swift; sourceTree = "<group>"; };
+		875F85D6259091D0001473FB /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		87BF2AF32588EF8F009B57B8 /* cardsGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cardsGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87BF2AF62588EF8F009B57B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87BF2AF82588EF8F009B57B8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,9 +56,10 @@
 		8717A409258ECD31000C04BA /* cells */ = {
 			isa = PBXGroup;
 			children = (
+				875F85D6259091D0001473FB /* SettingsTableViewCell.swift */,
 				8717A411258EDBB9000C04BA /* ChatMessageTableViewCell.swift */,
-				8717A41E258EEBB7000C04BA /* LeaderboardTableViewCell.swift */,
 				8717A412258EDBB9000C04BA /* ChatMessageTableViewCell.xib */,
+				8717A41E258EEBB7000C04BA /* LeaderboardTableViewCell.swift */,
 				8717A418258EEA47000C04BA /* OfferTableViewCell.swift */,
 				8717A419258EEA47000C04BA /* OfferTableViewCell.xib */,
 			);
@@ -178,6 +181,7 @@
 			files = (
 				8717A41A258EEA47000C04BA /* OfferTableViewCell.swift in Sources */,
 				87BF2AFB2588EF8F009B57B8 /* GameFieldViewController.swift in Sources */,
+				875F85D7259091D0001473FB /* SettingsTableViewCell.swift in Sources */,
 				87BF2AF72588EF8F009B57B8 /* AppDelegate.swift in Sources */,
 				87BF2AF92588EF8F009B57B8 /* SceneDelegate.swift in Sources */,
 				87BF2B1625891702009B57B8 /* GameLogic.swift in Sources */,

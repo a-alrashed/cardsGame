@@ -197,3 +197,28 @@ func calculatePlayerPoints(with cards: PlayerCards) -> Int {
  
  
  */
+
+
+
+/*
+ 
+ offers logic
+ 
+ players that enterd the round can send Offers to withdraw from the round to the top bettor
+ (but they can not change or revoke the offer after sending it)
+ the top bettor can Approve or rejecting the offers
+ (but he can not change his mind after making the decision)
+ the top bettor is the one that can end the round and uncover the cards
+ (if he dose not the timer will do so after 2 min)
+ 
+ the coins only go to the offer Providers if the top bettor wins the round (but if he losses they dont loss anything)
+ 
+ */
+
+/*
+ the round winner gets the top betters bet
+ if player 1 enters the round with 100
+ and player 2 enters with 2000
+ 
+ then if player 1 wins the round he gets 2000 coins 
+ */

@@ -8,7 +8,19 @@
 import UIKit
 
 class LeaderboardTableViewCell: UITableViewCell {
-
+    @IBOutlet weak var crownImage: DesignableImage!
+    @IBOutlet weak var profileImage: DesignableImage!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var coinsLeabel: UILabel!
+    
+    func configure(player: Player) {
+        //if the player has the most coins
+        crownImage.isHidden = false
+        profileImage.image = player.image
+        usernameLabel.text  = player.name
+        coinsLeabel.text = String(player.coins)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

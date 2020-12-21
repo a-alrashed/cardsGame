@@ -9,7 +9,7 @@ import UIKit
 
 enum ContentPage {
     case leaderboard
-    case chat
+    case settings
     case offers
 }
 
@@ -192,9 +192,16 @@ class GameFieldViewController: UIViewController {
         print("You have withdrawn from the round")
     }
     
-    func presentChatView() {
-        presentContentView(with: .chat)
-        //do some animation to present the chatView
+    @IBOutlet weak var sendOfferButton: DesignableButton!
+    @IBAction func sendOffer(_ sender: Any) {
+        sendOfferButton.isHidden = true
+        //present the offer picker View
+    }
+    
+    func presentOffersView() {
+        presentContentView(with: .offers)
+        // if player is not the top bettor
+        sendOfferButton.isHidden = false
         //do some logic to determen the winner
         //... after all that allow the next round to begin
         self.startTheRoundButton.isEnabled = true
@@ -223,7 +230,7 @@ class GameFieldViewController: UIViewController {
         switch player.order {
         case .fourth where newRound == false:
             print("start the negotiations")
-            presentChatView()
+            presentOffersView()
         case .first,.second,.third, .fourth:
             print("its the next players turn")
             switch player.direction {
@@ -509,13 +516,12 @@ class GameFieldViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        player1 = Player(name: "Azzam", image: #imageLiteral(resourceName: "profile-image"), direction: .down)
-        player2 = Player(name: "Ahmad", image: #imageLiteral(resourceName: "profile-image"), direction: .right)
-        player3 = Player(name: "Omar", image: #imageLiteral(resourceName: "profile-image"), direction: .up)
-        player4 = Player(name: "Ammar", image: #imageLiteral(resourceName: "profile-image"), direction: .left)
+        player1 = Player(name: "Azzam", image: #imageLiteral(resourceName: "image6"), direction: .down)
+        player2 = Player(name: "Ahmad", image: #imageLiteral(resourceName: "image1"), direction: .right)
+        player3 = Player(name: "Omar", image: #imageLiteral(resourceName: "image5"), direction: .up)
+        player4 = Player(name: "Ammar", image: #imageLiteral(resourceName: "image2"), direction: .left)
         
         leaderboardArray = [player1!,player2!,player3!,player4!]
-        
         contentViewTopConstraint.constant = view.frame.size.height
         
     }
@@ -561,7 +567,7 @@ class GameFieldViewController: UIViewController {
             if fingerTrackerView.frame.intersects(navigationImages[0].frame) {
                 presentContentView(with: .offers)
             } else if fingerTrackerView.frame.intersects(navigationImages[1].frame) {
-                presentContentView(with: .chat)
+                presentContentView(with: .settings)
             } else if fingerTrackerView.frame.intersects(navigationImages[2].frame) {
                 presentContentView(with: .leaderboard)
             }
@@ -623,7 +629,7 @@ class GameFieldViewController: UIViewController {
         case 0:
             presentContentView(with: .offers)
         case 1:
-            presentContentView(with: .chat)
+            presentContentView(with: .settings)
         case 2:
             presentContentView(with: .leaderboard)
         default:
@@ -640,44 +646,74 @@ class GameFieldViewController: UIViewController {
         }
     }
     
+    
     @IBOutlet weak var leaderboardTableView: UITableView!
-    @IBOutlet weak var chatTableView: UITableView!
+    @IBOutlet weak var settingsTableView: UITableView!
     @IBOutlet weak var offersTableView: UITableView!
     
     var leaderboardArray = [Player]() //Player
-    var chatMessages = [String]()   //Messages
+    var settingsArray = [Setting]()   //Setting
     var offersArray = [String]()   //Offer
     
     func presentContentView(with page: ContentPage) {
         switch page {
         case .offers:
             print("present offers page")
+            
             navigationImages[0].alpha = 1
             navigationImages[1].alpha = 0.5
             navigationImages[2].alpha = 0.5
             offersTableView.isHidden = false
-            chatTableView.isHidden = true
+            settingsTableView.isHidden = true
             leaderboardTableView.isHidden = true
-        case .chat:
-            print("present chat page")
+        case .settings:
+            print("present settings page")
+            
             navigationImages[0].alpha = 0.5
             navigationImages[1].alpha = 1
             navigationImages[2].alpha = 0.5
             offersTableView.isHidden = true
-            chatTableView.isHidden = false
+            settingsTableView.isHidden = false
             leaderboardTableView.isHidden = true
         case .leaderboard:
             print("present leaderboard page")
+            
             navigationImages[0].alpha = 0.5
             navigationImages[1].alpha = 0.5
             navigationImages[2].alpha = 1
             offersTableView.isHidden = true
-            chatTableView.isHidden = true
+            settingsTableView.isHidden = true
             leaderboardTableView.isHidden = false
         }
         UIView.animate(withDuration: 0.2) {
             self.contentViewTopConstraint.constant = 30
             self.view.layoutIfNeeded()
+        }
+    }
+    
+
+    
+    @IBOutlet weak var recordingIndicatorView: DesignableView!
+    @IBOutlet weak var recordingIndicatorViewWidthConstraint: NSLayoutConstraint!
+    @IBAction func recordVoice(_ sender: Any) {
+        isRecording.toggle()
+        print(isRecording)
+        if isRecording { recordingIndicatorAnimation() }
+    }
+    
+    var isRecording = false
+    func recordingIndicatorAnimation() {
+        UIView.animate(withDuration: 0.5) {
+            self.recordingIndicatorViewWidthConstraint.constant = 70
+            self.recordingIndicatorView.alpha = 0
+            self.view.layoutIfNeeded()
+        } completion: { (_) in
+            self.recordingIndicatorViewWidthConstraint.constant = 50
+            self.recordingIndicatorView.alpha = 1
+            self.view.layoutIfNeeded()
+            if self.isRecording {
+                self.recordingIndicatorAnimation()
+            }
         }
     }
     
@@ -689,8 +725,8 @@ extension GameFieldViewController: UITableViewDataSource, UITableViewDelegate {
         switch tableView {
         case leaderboardTableView:
             return leaderboardArray.count
-        case chatTableView:
-            return chatMessages.count
+        case settingsTableView:
+            return settingsArray.count
         case offersTableView:
             return offersArray.count
         default:
@@ -702,9 +738,11 @@ extension GameFieldViewController: UITableViewDataSource, UITableViewDelegate {
         switch tableView {
         case leaderboardTableView:
             let cell = leaderboardTableView.dequeueReusableCell(withIdentifier: "leaderboardCell") as! LeaderboardTableViewCell
+            cell.configure(player: leaderboardArray[indexPath.row])
             return cell
-        case chatTableView:
-            let cell = leaderboardTableView.dequeueReusableCell(withIdentifier: "leaderboardCell") as! LeaderboardTableViewCell
+        case settingsTableView:
+            let cell = settingsTableView.dequeueReusableCell(withIdentifier: "settingsCell") as! SettingsTableViewCell
+            cell.configure(setting: settingsArray[indexPath.row])
             return cell
         case offersTableView:
             let cell = leaderboardTableView.dequeueReusableCell(withIdentifier: "leaderboardCell") as! LeaderboardTableViewCell

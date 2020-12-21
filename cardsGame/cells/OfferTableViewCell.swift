@@ -7,6 +7,12 @@
 
 import UIKit
 
+struct Offers {
+    let coins: Int
+    let sender: Player
+    let receiver: Player
+}
+
 class OfferTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
