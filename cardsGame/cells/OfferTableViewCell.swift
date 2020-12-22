@@ -7,14 +7,40 @@
 
 import UIKit
 
-struct Offers {
+enum offerState: String {
+    case accepted = "Accepted"
+    case rejected = "Rejected"
+}
+
+struct Offer {
     let coins: Int
     let sender: Player
-    let receiver: Player
+    var state: offerState?
 }
 
 class OfferTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var profileImage: DesignableImage!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var offerAmountLabel: UILabel!
+    @IBOutlet weak var stateLabel: UILabel!
+    
+    func configure(offer: Offer) {
+        profileImage.image = offer.sender.image
+        usernameLabel.text = offer.sender.name
+        offerAmountLabel.text = String(offer.coins)
+        if let offerState = offer.state {
+            stateLabel.isHidden = false
+            stateLabel.text = offerState.rawValue
+            switch offerState {
+            case .accepted:
+                stateLabel.textColor = UIColor.systemGreen
+            case .rejected:
+                stateLabel.textColor = UIColor.systemRed
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

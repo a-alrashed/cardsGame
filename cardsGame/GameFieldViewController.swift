@@ -515,6 +515,7 @@ class GameFieldViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+            offersTableView.register(UINib(nibName: "OfferTableViewCell", bundle: nil), forCellReuseIdentifier: "offerCell")
         
         player1 = Player(name: "Azzam", image: #imageLiteral(resourceName: "image6"), direction: .down)
         player2 = Player(name: "Ahmad", image: #imageLiteral(resourceName: "image1"), direction: .right)
@@ -653,7 +654,7 @@ class GameFieldViewController: UIViewController {
     
     var leaderboardArray = [Player]() //Player
     var settingsArray = [Setting]()   //Setting
-    var offersArray = [String]()   //Offer
+    var offersArray = [Offer]()   //Offer
     
     func presentContentView(with page: ContentPage) {
         switch page {
@@ -745,7 +746,8 @@ extension GameFieldViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configure(setting: settingsArray[indexPath.row])
             return cell
         case offersTableView:
-            let cell = leaderboardTableView.dequeueReusableCell(withIdentifier: "leaderboardCell") as! LeaderboardTableViewCell
+            let cell = offersTableView.dequeueReusableCell(withIdentifier: "offerCell") as! OfferTableViewCell
+            cell.configure(offer: offersArray[indexPath.row])
             return cell
         default:
             return UITableViewCell()
@@ -753,7 +755,38 @@ extension GameFieldViewController: UITableViewDataSource, UITableViewDelegate {
         
     }
     
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if tableView == offersTableView {
+            if offersArray[indexPath.row].state == nil {
+                let accepteAction = UIContextualAction(style: .normal, title: "accepte") { (action, view, completionHandler) in
+                    //make the accepted cell background green
+                    self.offersArray[indexPath.row].state = .accepted
+                    self.offersTableView.reloadData()
+                }
+                accepteAction.backgroundColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 0)
+                accepteAction.image = #imageLiteral(resourceName: "accepte")
+                return UISwipeActionsConfiguration(actions: [accepteAction])
+            }
+        }
+        return nil
+    }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if tableView == offersTableView {
+            if offersArray[indexPath.row].state == nil {
+                let rejecteAction = UIContextualAction(style: .normal, title: "rejecte") { (action, view, completionHandler) in
+                    
+                    // make the rejected cell background red
+                    self.offersArray[indexPath.row].state = .rejected
+                    self.offersTableView.reloadData()
+                }
+                rejecteAction.image = #imageLiteral(resourceName: "rejecte")
+                rejecteAction.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                return UISwipeActionsConfiguration(actions: [rejecteAction])
+            }
+        }
+        return nil
+    }
     
 }
 
