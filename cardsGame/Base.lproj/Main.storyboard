@@ -1055,7 +1055,7 @@
             <size key="intrinsicContentSize" width="179.66666666666666" height="250.66666666666666"/>
         </designable>
         <designable name="mAF-DU-BMN">
-            <size key="intrinsicContentSize" width="271" height="96"/>
+            <size key="intrinsicContentSize" width="176" height="96"/>
         </designable>
         <designable name="mEg-YA-ljl">
             <size key="intrinsicContentSize" width="180" height="250.66666666666666"/>

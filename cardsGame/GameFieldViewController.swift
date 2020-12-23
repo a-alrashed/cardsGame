@@ -199,6 +199,7 @@ class GameFieldViewController: UIViewController {
     @IBOutlet weak var sendOfferButton: DesignableButton!
     @IBAction func sendOffer(_ sender: Any) {
         sendOfferButton.isHidden = true
+        offerPickerView.selectRow(0, inComponent: 0, animated: false)
         offerPickerView.isHidden = false
         cancelOffersPickerButton.isHidden = false
         //present the offer picker View
@@ -237,21 +238,54 @@ class GameFieldViewController: UIViewController {
     
     func presentOffersView() {
         presentContentView(with: .offers)
+        
+        // determine Possible offers
         determinePossibleOffers()
         
         if !player1!.hasTopBet && player1?.currentRoundBet != 0 {
-            // if player dose not have the top bet
+            // if player entered the round but dose not have the top bet
+            // then allow hem to send an offer
             sendOfferButton.isHidden = false
         }
         
         aiOffers()
         
-        
-        // determine Possible offers
         //do some logic to determen the winner
-        //... after all that allow the next round to begin
-        self.startTheRoundButton.isEnabled = true
-        //startTheRound(self)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+            let players = [
+                self.player1,
+                self.player2,
+                self.player3,
+                self.player4
+            ].filter { $0!.currentRoundBet > 0 }
+            
+            self.hideAllCardsAndBetBubbelsAnimation()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                for i in 0...3 {
+                    self.player1CardsImages[i].image = (self.player1?.cards[i].image)!
+                    self.player2CardsImages[i].image = (self.player2?.cards[i].image)!
+                    self.player3CardsImages[i].image = (self.player3?.cards[i].image)!
+                    self.player4CardsImages[i].image = (self.player4?.cards[i].image)!
+                }
+                
+                for player in players {
+                    for _ in 0...3 {
+                        self.presentCardAnimation(player: player!)
+                        player!.presentedCardsCounter += 1
+                    }
+                }
+            }
+            
+            //... after all that allow the next round to begin
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+                self.startTheRound(self)
+            }
+            
+        }
+        
+        
+        
     }
     
     fileprivate func aiOfferDecision(_ player: Player) {
