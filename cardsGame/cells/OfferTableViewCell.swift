@@ -38,6 +38,9 @@ class OfferTableViewCell: UITableViewCell {
             case .rejected:
                 stateLabel.textColor = UIColor.systemRed
             }
+        } else {
+            stateLabel.isHidden = true
+            stateLabel.text = ""
         }
     }
     

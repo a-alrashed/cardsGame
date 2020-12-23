@@ -55,7 +55,7 @@ enum PlayerOrder {
     case fourth
 }
 
-struct Player {
+class Player {
     let name: String
     let image: UIImage
     var coins = 5000
@@ -69,7 +69,7 @@ struct Player {
     var unEqlueCards = [[Card]]()
     var combination = CardsCombination.none
     var possibleBets = [Int]()
-    
+    var hasTopBet = false
     
     init(name: String, image: UIImage, direction: Direction, isPlaying: Bool = false) {
         self.name = name
@@ -78,7 +78,7 @@ struct Player {
         self.direction = direction
     }
     
-    mutating func seperateEqlueCards() {
+    func seperateEqlueCards() {
         //seperat the eqlue and not eqlue cards
         let aceArray = cards.filter { $0.name == .ace}
         let kingArray = cards.filter { $0.name == .king}
@@ -115,10 +115,12 @@ struct Player {
         return playerPoints
     }
     
-    mutating func determinePossibleBets(previousBit: Int = 0) {
+    func determinePossibleBets(highestPreviousBet: Int = 100) {
         var possibleBets = [Int]()
+        let minimumBet: Int
+        if coins < highestPreviousBet { minimumBet = 100 } else { minimumBet = highestPreviousBet + 100 }
         var bet = coins
-        while bet > previousBit {
+        while bet >= minimumBet {
             possibleBets.append(bet)
             bet -= 100
         }
@@ -165,22 +167,22 @@ class GameFieldViewController: UIViewController {
     @IBOutlet weak var actionsStackView: UIStackView!
 
     @IBOutlet weak var betPickerView: UIPickerView!
-    @IBOutlet weak var cancelPickerButton: UIButton!
+    @IBOutlet weak var cancelBetPickerButton: UIButton!
     
     
-    @IBAction func didCancelPickerView(_ sender: Any) {
+    @IBAction func cancelBetPickerView(_ sender: Any) {
         betPickerView.isHidden = true
-        cancelPickerButton.isHidden = true
+        cancelBetPickerButton.isHidden = true
         actionsStackView.isHidden = false
     }
     
     @IBAction func enterRoundAction(_ sender: Any) {
         //present the bidding picker View
-        player1!.determinePossibleBets()
+        player1!.determinePossibleBets(highestPreviousBet: highestPreviousBet)
         betPickerView.reloadAllComponents()
         betPickerView.selectRow(0, inComponent: 0, animated: false)
         betPickerView.isHidden = false
-        cancelPickerButton.isHidden = false
+        cancelBetPickerButton.isHidden = false
         actionsStackView.isHidden = true
         
     }
@@ -192,25 +194,79 @@ class GameFieldViewController: UIViewController {
         print("You have withdrawn from the round")
     }
     
+    @IBOutlet weak var offerPickerView: UIPickerView!
+    @IBOutlet weak var cancelOffersPickerButton: UIButton!
+    
     @IBOutlet weak var sendOfferButton: DesignableButton!
     @IBAction func sendOffer(_ sender: Any) {
         sendOfferButton.isHidden = true
+        offerPickerView.isHidden = false
+        cancelOffersPickerButton.isHidden = false
         //present the offer picker View
     }
     
+    @IBAction func cancelOffersPickerView(_ sender: Any) {
+        sendOfferButton.isHidden = false
+        offerPickerView.isHidden = true
+        cancelOffersPickerButton.isHidden = true
+    }
+    
+    
+    fileprivate func determineTopBettor() -> Player {
+        var players = [player1,player2,player3,player4].sorted { return $0!.currentRoundBet > $1!.currentRoundBet }
+        
+        players[0]!.hasTopBet = true
+        players[1]!.hasTopBet = false
+        players[2]!.hasTopBet = false
+        players[3]!.hasTopBet = false
+        
+        return players[0]!
+    }
+    
+    var possibleOffers = [Int]()
+    fileprivate func determinePossibleOffers() {
+        var possibleOffers = [Int]()
+        var offer = determineTopBettor().currentRoundBet
+        while offer >= 100 {
+            possibleOffers.append(offer)
+            offer -= 100
+        }
+        self.possibleOffers = possibleOffers.reversed()
+        offerPickerView.reloadAllComponents()
+    }
+    
+    
     func presentOffersView() {
         presentContentView(with: .offers)
-        // if player is not the top bettor
-        sendOfferButton.isHidden = false
+        determinePossibleOffers()
+        
+        if !player1!.hasTopBet {
+            // if player dose not have the top bet
+            sendOfferButton.isHidden = false
+        }
+        
+        aiOffers()
+        
+        
+        // determine Possible offers
         //do some logic to determen the winner
         //... after all that allow the next round to begin
         self.startTheRoundButton.isEnabled = true
         //startTheRound(self)
     }
     
+    fileprivate func aiOffers() {
+        let aiPlayers = [player2,player3,player4].filter { $0!.hasTopBet == false && $0!.currentRoundBet != 0 }
+        for player in aiPlayers {
+            offersArray.append(Offer(coins: possibleOffers[0], sender: player!))
+            offersTableView.reloadData()
+        }
+        
+    }
+    
     fileprivate func aiPlayerAction(for player: inout Player) {
         sleep(4)
-        player.determinePossibleBets()
+        player.determinePossibleBets(highestPreviousBet: highestPreviousBet)
         //if there is no possibleBets than let the player withdraw AKA withdrawalAnimation
         guard player.possibleBets.count != 0 else {
             withdrawalAnimation(for: player)
@@ -220,6 +276,7 @@ class GameFieldViewController: UIViewController {
         let randomNumber = Int.random(in: 2...4)
         if aiLuckyNumber % randomNumber == 0 {
             player.currentRoundBet = player.possibleBets[aiLuckyNumber]
+            if highestPreviousBet < player.currentRoundBet { highestPreviousBet = player.currentRoundBet }
             presentBetAnimation(for: player)
         } else {
             withdrawalAnimation(for: player)
@@ -271,10 +328,10 @@ class GameFieldViewController: UIViewController {
                 self.nextTurn(from: player)
             }
         }
-        
     }
     
     func withdrawalAnimation(for player: Player) {
+        player.currentRoundBet = 0
         guard player.presentedCardsCounter == 4 else { return }
         UIView.animate(withDuration: 0.3) {
             switch player.direction {
@@ -436,6 +493,7 @@ class GameFieldViewController: UIViewController {
      passed by Value not by reference */
     var lastPlayerInRound: Player?
     var roundCounter = 0
+    var highestPreviousBet = 0
     fileprivate func shuffleCards() {
         
         //cards shuffling
@@ -499,6 +557,14 @@ class GameFieldViewController: UIViewController {
         //start the game
         //...
         startTheRoundButton.isEnabled = false
+        
+        //remove the old offers
+        offersArray.removeAll()
+        offersTableView.reloadData()
+        
+        //reset the highest Previous Bet to 0
+        highestPreviousBet = 0
+        
         shuffleCards()
         
         player1!.seperateEqlueCards()
@@ -756,33 +822,33 @@ extension GameFieldViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if tableView == offersTableView {
+        if tableView == offersTableView && player1!.hasTopBet {
             if offersArray[indexPath.row].state == nil {
-                let accepteAction = UIContextualAction(style: .normal, title: "accepte") { (action, view, completionHandler) in
+                let acceptAction = UIContextualAction(style: .normal, title: "accept") { (action, view, completionHandler) in
                     //make the accepted cell background green
                     self.offersArray[indexPath.row].state = .accepted
                     self.offersTableView.reloadData()
                 }
-                accepteAction.backgroundColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 0)
-                accepteAction.image = #imageLiteral(resourceName: "accepte")
-                return UISwipeActionsConfiguration(actions: [accepteAction])
+                acceptAction.image = #imageLiteral(resourceName: "accept")
+                acceptAction.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                return UISwipeActionsConfiguration(actions: [acceptAction])
             }
         }
         return nil
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if tableView == offersTableView {
+        if tableView == offersTableView && player1!.hasTopBet {
             if offersArray[indexPath.row].state == nil {
-                let rejecteAction = UIContextualAction(style: .normal, title: "rejecte") { (action, view, completionHandler) in
+                let rejectAction = UIContextualAction(style: .normal, title: "reject") { (action, view, completionHandler) in
                     
                     // make the rejected cell background red
                     self.offersArray[indexPath.row].state = .rejected
                     self.offersTableView.reloadData()
                 }
-                rejecteAction.image = #imageLiteral(resourceName: "rejecte")
-                rejecteAction.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-                return UISwipeActionsConfiguration(actions: [rejecteAction])
+                rejectAction.image = #imageLiteral(resourceName: "reject")
+                rejectAction.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                return UISwipeActionsConfiguration(actions: [rejectAction])
             }
         }
         return nil
@@ -797,21 +863,48 @@ extension GameFieldViewController: UIPickerViewAccessibilityDelegate, UIPickerVi
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch pickerView {
+        case betPickerView:
+            return player1!.possibleBets.count
+        case offerPickerView:
+            return possibleOffers.count
+        default:
+            return 0
+        }
         
-        return player1!.possibleBets.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return String(player1!.possibleBets[row])
+        switch pickerView {
+        case betPickerView:
+            return String(player1!.possibleBets[row])
+        case offerPickerView:
+            return String(possibleOffers[row])
+        default:
+            return ""
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        //do some animation to hide the picker and play the bet that the user selected
-        betPickerView.isHidden = true
-        cancelPickerButton.isHidden = true
-        player1!.currentRoundBet = player1!.possibleBets[row]
-        presentBetAnimation(for: player1!)
-        print("you entered the round with :",player1!.currentRoundBet)
+        switch pickerView {
+        case betPickerView:
+            //do some animation to hide the picker and play the bet that the user selected
+            betPickerView.isHidden = true
+            cancelBetPickerButton.isHidden = true
+            player1!.currentRoundBet = player1!.possibleBets[row]
+            if highestPreviousBet < player1!.currentRoundBet { highestPreviousBet = player1!.currentRoundBet }
+            presentBetAnimation(for: player1!)
+            print("you entered the round with :",player1!.currentRoundBet)
+            
+        case offerPickerView:
+            offerPickerView.isHidden = true
+            cancelOffersPickerButton.isHidden = true
+            offersArray.append(Offer(coins: possibleOffers[row], sender: player1!))
+            offersTableView.reloadData()
+        default:
+            break
+        }
+        
     }
     
     

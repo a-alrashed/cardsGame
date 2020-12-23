@@ -536,11 +536,42 @@
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="qnS-ic-gRx"/>
                                         </connections>
                                     </tableView>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mAF-DU-BMN" customClass="DesignableButton" customModule="cardsGame" customModuleProvider="target">
+                                        <rect key="frame" x="149" y="658" width="130" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="W63-e2-K8k"/>
+                                            <constraint firstAttribute="width" constant="130" id="h2E-E0-jPZ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="17"/>
+                                        <inset key="imageEdgeInsets" minX="5" minY="5" maxX="95" maxY="5"/>
+                                        <state key="normal" title="send offer" image="offersView">
+                                            <color key="titleColor" red="0.52015411850000004" green="0.042070686820000001" blue="0.30197137590000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                <real key="value" value="0.29999999999999999"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                <size key="value" width="2" height="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="sendOffer:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ouv-yr-PNI"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="QF6-jd-3fH" secondAttribute="bottom" priority="750" constant="200" id="21o-fd-2zA"/>
                                     <constraint firstAttribute="trailing" secondItem="QF6-jd-3fH" secondAttribute="trailing" id="F5H-6f-uQa"/>
+                                    <constraint firstItem="mAF-DU-BMN" firstAttribute="centerX" secondItem="FlN-2o-C8X" secondAttribute="centerX" id="GBT-NO-GBj"/>
                                     <constraint firstItem="QF6-jd-3fH" firstAttribute="top" secondItem="FlN-2o-C8X" secondAttribute="top" constant="10" id="JY6-Re-ydz"/>
                                     <constraint firstAttribute="bottom" secondItem="EcP-zI-yoh" secondAttribute="bottom" priority="750" constant="200" id="RhU-GK-CWO"/>
                                     <constraint firstAttribute="bottom" secondItem="R8e-pN-1Du" secondAttribute="bottom" priority="750" constant="200" id="T9Z-5W-t7O"/>
@@ -570,37 +601,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mAF-DU-BMN" customClass="DesignableButton" customModule="cardsGame" customModuleProvider="target">
-                                <rect key="frame" x="149" y="680" width="130" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="W63-e2-K8k"/>
-                                    <constraint firstAttribute="width" constant="130" id="h2E-E0-jPZ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="17"/>
-                                <inset key="imageEdgeInsets" minX="5" minY="5" maxX="95" maxY="5"/>
-                                <state key="normal" title="send offer" image="offersView">
-                                    <color key="titleColor" red="0.52015411850000004" green="0.042070686820000001" blue="0.30197137590000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                        <real key="value" value="0.29999999999999999"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                        <size key="value" width="2" height="3"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="recordVoice:" destination="BYZ-38-t0r" eventType="touchUpInside" id="a20-9S-eBN"/>
-                                    <action selector="sendOffer:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ouv-yr-PNI"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qYq-kn-OLY" customClass="DesignableButton" customModule="cardsGame" customModuleProvider="target">
                                 <rect key="frame" x="338" y="827" width="50" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -757,12 +757,31 @@
                                     <outletCollection property="gestureRecognizers" destination="djy-7o-iPT" appends="YES" id="4WD-Cz-Vu0"/>
                                 </connections>
                             </view>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SiN-rR-VWd">
+                                <rect key="frame" x="0.0" y="0.0" width="428" height="726"/>
+                                <connections>
+                                    <action selector="cancelBetPickerView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qzk-Hd-Jbj"/>
+                                    <action selector="cancelOffersPickerView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OQ2-Uw-T3h"/>
+                                </connections>
+                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VUV-MW-NF7">
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="726"/>
                                 <connections>
-                                    <action selector="didCancelPickerView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="27C-F5-9A6"/>
+                                    <action selector="cancelBetPickerView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="27C-F5-9A6"/>
                                 </connections>
                             </button>
+                            <pickerView hidden="YES" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kna-eX-4HN">
+                                <rect key="frame" x="0.0" y="726" width="428" height="200"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="M1V-d5-oYg"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="tDL-IH-oN5"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="0Ny-GO-bmt"/>
+                                </connections>
+                            </pickerView>
                             <pickerView hidden="YES" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="asm-Y5-e7n">
                                 <rect key="frame" x="0.0" y="726" width="428" height="200"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -781,15 +800,18 @@
                         <constraints>
                             <constraint firstItem="5GG-kH-MZU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="01U-le-7Gz"/>
                             <constraint firstItem="JMK-82-XkZ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="14g-L3-MZb"/>
+                            <constraint firstItem="SiN-rR-VWd" firstAttribute="leading" secondItem="VUV-MW-NF7" secondAttribute="leading" id="1g6-cV-hTy"/>
                             <constraint firstItem="zww-Xo-nLh" firstAttribute="centerX" secondItem="t6R-q5-LoI" secondAttribute="centerX" id="2XR-SA-pcv"/>
                             <constraint firstItem="y8i-Fo-vzV" firstAttribute="width" secondItem="y8i-Fo-vzV" secondAttribute="height" multiplier="1:1" id="2lm-5T-7Vn"/>
                             <constraint firstAttribute="trailing" secondItem="k7s-jp-0fi" secondAttribute="trailing" constant="-120" id="5d0-mS-psl"/>
                             <constraint firstItem="pWd-Dj-mph" firstAttribute="leading" secondItem="UTk-9n-kuL" secondAttribute="trailing" constant="-200" id="5yi-oD-fMW"/>
                             <constraint firstAttribute="trailing" secondItem="BKW-i4-gjj" secondAttribute="trailing" constant="-120" id="6QZ-B0-mDZ"/>
+                            <constraint firstItem="SiN-rR-VWd" firstAttribute="top" secondItem="VUV-MW-NF7" secondAttribute="top" id="6UV-se-DkJ"/>
                             <constraint firstItem="mEg-YA-ljl" firstAttribute="leading" secondItem="UTk-9n-kuL" secondAttribute="trailing" constant="-120" id="6pn-av-PWb"/>
                             <constraint firstItem="72P-QY-JzA" firstAttribute="leading" secondItem="03r-dN-6u3" secondAttribute="trailing" constant="-80" id="71E-6e-7md"/>
                             <constraint firstItem="asm-Y5-e7n" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="88u-pL-j08"/>
                             <constraint firstItem="03r-dN-6u3" firstAttribute="width" secondItem="03r-dN-6u3" secondAttribute="height" multiplier="1:1" id="8cW-TJ-UzZ"/>
+                            <constraint firstItem="SiN-rR-VWd" firstAttribute="trailing" secondItem="VUV-MW-NF7" secondAttribute="trailing" id="8uV-nU-jAe"/>
                             <constraint firstItem="m5D-Ut-yfy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="91A-fS-p1b"/>
                             <constraint firstItem="zww-Xo-nLh" firstAttribute="centerY" secondItem="t6R-q5-LoI" secondAttribute="centerY" id="9Wk-kW-Ity"/>
                             <constraint firstItem="695-mV-2aq" firstAttribute="leading" secondItem="whx-kD-eKl" secondAttribute="leading" id="9yb-kT-daF"/>
@@ -803,7 +825,6 @@
                             <constraint firstItem="VUV-MW-NF7" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Evu-4L-wMo"/>
                             <constraint firstItem="whx-kD-eKl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EyA-2i-pgO"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0dM-La-WME" secondAttribute="trailing" constant="10" id="FcF-0G-zgU"/>
-                            <constraint firstItem="mAF-DU-BMN" firstAttribute="top" secondItem="CC2-vZ-DcF" secondAttribute="top" id="G4A-ho-RUd"/>
                             <constraint firstAttribute="bottom" secondItem="asm-Y5-e7n" secondAttribute="bottom" id="GSO-82-JQb"/>
                             <constraint firstAttribute="bottom" secondItem="FlN-2o-C8X" secondAttribute="bottom" constant="-30" id="HgR-r4-BSR"/>
                             <constraint firstItem="JMK-82-XkZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="-120" id="Hid-c0-0ci"/>
@@ -820,6 +841,7 @@
                             <constraint firstItem="whx-kD-eKl" firstAttribute="width" secondItem="whx-kD-eKl" secondAttribute="height" multiplier="179:250" id="Nl5-TF-HIJ"/>
                             <constraint firstItem="whx-kD-eKl" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="O1B-BT-hYd"/>
                             <constraint firstAttribute="trailing" secondItem="8ig-hs-7Zk" secondAttribute="trailing" constant="-120" id="P62-8u-5HT"/>
+                            <constraint firstAttribute="bottom" secondItem="Kna-eX-4HN" secondAttribute="bottom" id="Qf1-rx-yG7"/>
                             <constraint firstItem="CC2-vZ-DcF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RPU-Dr-Jb1"/>
                             <constraint firstItem="FlN-2o-C8X" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="RPh-IW-XNg"/>
                             <constraint firstItem="cFK-Nc-SW9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-120" id="SaR-D2-QCg"/>
@@ -837,6 +859,7 @@
                             <constraint firstItem="FlN-2o-C8X" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="bzQ-aN-xrI"/>
                             <constraint firstAttribute="bottom" secondItem="pWd-Dj-mph" secondAttribute="bottom" constant="-240" id="cD9-Aa-RLJ"/>
                             <constraint firstItem="k7s-jp-0fi" firstAttribute="top" secondItem="wRL-zD-aKK" secondAttribute="bottom" constant="-80" id="cRw-JO-joU"/>
+                            <constraint firstItem="SiN-rR-VWd" firstAttribute="bottom" secondItem="VUV-MW-NF7" secondAttribute="bottom" id="cl0-D1-dsY"/>
                             <constraint firstAttribute="bottom" secondItem="mEg-YA-ljl" secondAttribute="bottom" constant="-240" id="fYH-u3-SzQ"/>
                             <constraint firstItem="03r-dN-6u3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-120" id="fic-Do-vaW"/>
                             <constraint firstItem="72P-QY-JzA" firstAttribute="width" secondItem="72P-QY-JzA" secondAttribute="height" multiplier="1:1" id="fjZ-WH-Jvu"/>
@@ -845,6 +868,7 @@
                             <constraint firstItem="cFK-Nc-SW9" firstAttribute="leading" secondItem="Brj-GO-KJl" secondAttribute="trailing" constant="-80" id="gRi-Mw-hPR"/>
                             <constraint firstItem="8ig-hs-7Zk" firstAttribute="top" secondItem="BKW-i4-gjj" secondAttribute="bottom" constant="-80" id="gaV-RK-peA"/>
                             <constraint firstItem="72P-QY-JzA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-120" id="gxb-R4-2RF"/>
+                            <constraint firstItem="Kna-eX-4HN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="iEK-Tf-c0t"/>
                             <constraint firstItem="mkd-Dk-rUb" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="iS6-4n-4yb"/>
                             <constraint firstItem="cFK-Nc-SW9" firstAttribute="width" secondItem="cFK-Nc-SW9" secondAttribute="height" multiplier="1:1" id="iY9-Uv-Ckv"/>
                             <constraint firstItem="695-mV-2aq" firstAttribute="trailing" secondItem="whx-kD-eKl" secondAttribute="trailing" id="jUC-OB-av5"/>
@@ -853,11 +877,12 @@
                             <constraint firstItem="UTk-9n-kuL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jxg-ES-MjU"/>
                             <constraint firstItem="atJ-Vf-IkX" firstAttribute="width" secondItem="atJ-Vf-IkX" secondAttribute="height" multiplier="1:1" id="k52-RY-jog"/>
                             <constraint firstItem="sgb-XI-KDh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="kNj-aj-Ca0"/>
+                            <constraint firstAttribute="trailing" secondItem="Kna-eX-4HN" secondAttribute="trailing" id="kiy-c1-6dY"/>
                             <constraint firstItem="mkd-Dk-rUb" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="lD5-s5-Q4N"/>
                             <constraint firstItem="2MP-2b-nrt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m8S-aN-IIh"/>
                             <constraint firstItem="VUV-MW-NF7" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="mCg-rn-Tsx"/>
                             <constraint firstAttribute="bottom" secondItem="oBf-hA-hOr" secondAttribute="bottom" constant="-240" id="moG-CB-VF0"/>
-                            <constraint firstItem="mAF-DU-BMN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="mxK-wQ-iiQ"/>
+                            <constraint firstItem="t6R-q5-LoI" firstAttribute="top" secondItem="mAF-DU-BMN" secondAttribute="bottom" constant="50" id="nEm-Jr-MCh"/>
                             <constraint firstItem="695-mV-2aq" firstAttribute="top" secondItem="whx-kD-eKl" secondAttribute="top" id="oWK-FM-28b"/>
                             <constraint firstItem="4hO-hU-Qxx" firstAttribute="centerY" secondItem="qYq-kn-OLY" secondAttribute="centerY" id="pd6-32-n7w"/>
                             <constraint firstItem="hmU-mt-EqM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="-120" id="s0V-Ux-j8f"/>
@@ -875,13 +900,15 @@
                     <connections>
                         <outlet property="actionsStackView" destination="CC2-vZ-DcF" id="b77-eO-JLe"/>
                         <outlet property="betPickerView" destination="asm-Y5-e7n" id="8P2-1m-e1V"/>
-                        <outlet property="cancelPickerButton" destination="VUV-MW-NF7" id="e4u-MK-aAW"/>
+                        <outlet property="cancelBetPickerButton" destination="VUV-MW-NF7" id="e4u-MK-aAW"/>
+                        <outlet property="cancelOffersPickerButton" destination="SiN-rR-VWd" id="izb-cS-8di"/>
                         <outlet property="contentViewTopConstraint" destination="RPh-IW-XNg" id="gEL-pE-d93"/>
                         <outlet property="fingerTrackerView" destination="Bkc-e4-mWw" id="0ci-4T-jUj"/>
                         <outlet property="homeButtonView" destination="0dh-De-R1E" id="WXU-lh-C6J"/>
                         <outlet property="leaderboardTableView" destination="QF6-jd-3fH" id="P3P-ex-4Nq"/>
                         <outlet property="navigationView" destination="zww-Xo-nLh" id="6Xq-Fo-0E4"/>
                         <outlet property="navigationViewWidthConstraint" destination="N4r-bA-wKy" id="1Le-q4-v4X"/>
+                        <outlet property="offerPickerView" destination="Kna-eX-4HN" id="Ouv-Dm-CUH"/>
                         <outlet property="offersTableView" destination="R8e-pN-1Du" id="vVu-xJ-ZVc"/>
                         <outlet property="recordingIndicatorView" destination="4hO-hU-Qxx" id="Gub-WN-ZT8"/>
                         <outlet property="recordingIndicatorViewWidthConstraint" destination="nvN-Jp-4YT" id="U4d-Hm-AWV"/>
@@ -911,10 +938,6 @@
                         <outletCollection property="betBubbleViews" destination="0dM-La-WME" collectionClass="NSMutableArray" id="T5t-3s-0Ix"/>
                         <outletCollection property="betBubbleViews" destination="2MP-2b-nrt" collectionClass="NSMutableArray" id="3yb-T5-3uB"/>
                         <outletCollection property="betBubbleViews" destination="5GG-kH-MZU" collectionClass="NSMutableArray" id="QHR-E6-g7n"/>
-                        <outletCollection property="betBubbleLabels" destination="d1M-V1-XcS" collectionClass="NSMutableArray" id="evr-ej-jgx"/>
-                        <outletCollection property="betBubbleLabels" destination="lzs-V7-5Ii" collectionClass="NSMutableArray" id="XBv-Hg-mMr"/>
-                        <outletCollection property="betBubbleLabels" destination="cV6-ia-gg2" collectionClass="NSMutableArray" id="MBq-PW-knL"/>
-                        <outletCollection property="betBubbleLabels" destination="bVe-pu-GTZ" collectionClass="NSMutableArray" id="VZt-w1-z0i"/>
                         <outletCollection property="player1CardsImagesBottomConstraint" destination="cD9-Aa-RLJ" collectionClass="NSMutableArray" id="POE-7Y-k6M"/>
                         <outletCollection property="player1CardsImagesBottomConstraint" destination="Xol-6p-suY" collectionClass="NSMutableArray" id="gNB-hr-fQq"/>
                         <outletCollection property="player1CardsImagesBottomConstraint" destination="fYH-u3-SzQ" collectionClass="NSMutableArray" id="1Xf-d2-nx7"/>
@@ -944,6 +967,10 @@
                         <outletCollection property="navigationImages" destination="VIk-6f-rE8" collectionClass="NSMutableArray" id="8Mo-zz-bQk"/>
                         <outletCollection property="navigationImages" destination="eTP-Yd-icz" collectionClass="NSMutableArray" id="xvn-C1-rmC"/>
                         <outletCollection property="navigationImages" destination="nvf-OO-0FE" collectionClass="NSMutableArray" id="YGC-zz-Zzi"/>
+                        <outletCollection property="betBubbleLabels" destination="d1M-V1-XcS" collectionClass="NSMutableArray" id="Bkx-MG-Pos"/>
+                        <outletCollection property="betBubbleLabels" destination="lzs-V7-5Ii" collectionClass="NSMutableArray" id="2kX-L8-Y8w"/>
+                        <outletCollection property="betBubbleLabels" destination="cV6-ia-gg2" collectionClass="NSMutableArray" id="Cth-ay-KRQ"/>
+                        <outletCollection property="betBubbleLabels" destination="bVe-pu-GTZ" collectionClass="NSMutableArray" id="vdx-J8-O5I"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
