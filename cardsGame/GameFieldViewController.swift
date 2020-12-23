@@ -118,7 +118,7 @@ class Player {
     func determinePossibleBets(highestPreviousBet: Int = 100) {
         var possibleBets = [Int]()
         let minimumBet: Int
-        if coins < highestPreviousBet { minimumBet = 100 } else { minimumBet = highestPreviousBet + 100 }
+        if coins <= highestPreviousBet { minimumBet = 100 } else { minimumBet = highestPreviousBet + 100 }
         var bet = coins
         while bet >= minimumBet {
             possibleBets.append(bet)
@@ -190,7 +190,6 @@ class GameFieldViewController: UIViewController {
     @IBAction func withdrawalFromRoundAction(_ sender: Any) {
         actionsStackView.isHidden = true
         withdrawalAnimation(for: player1!)
-        player1!.presentedCardsCounter = 0
         print("You have withdrawn from the round")
     }
     
@@ -240,7 +239,7 @@ class GameFieldViewController: UIViewController {
         presentContentView(with: .offers)
         determinePossibleOffers()
         
-        if !player1!.hasTopBet {
+        if !player1!.hasTopBet && player1?.currentRoundBet != 0 {
             // if player dose not have the top bet
             sendOfferButton.isHidden = false
         }
@@ -255,17 +254,26 @@ class GameFieldViewController: UIViewController {
         //startTheRound(self)
     }
     
+    fileprivate func aiOfferDecision(_ player: Player) {
+        let aiLuckyNumber = Int.random(in: 0..<possibleOffers.count)
+        let randomNumber = Int.random(in: 2...3)
+        if aiLuckyNumber % randomNumber == 0 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.offersArray.append(Offer(coins: self.possibleOffers[aiLuckyNumber], sender: player))
+                self.offersTableView.reloadData()
+            }
+        }
+    }
+    
     fileprivate func aiOffers() {
         let aiPlayers = [player2,player3,player4].filter { $0!.hasTopBet == false && $0!.currentRoundBet != 0 }
         for player in aiPlayers {
-            offersArray.append(Offer(coins: possibleOffers[0], sender: player!))
-            offersTableView.reloadData()
+            aiOfferDecision(player!)
         }
         
     }
     
     fileprivate func aiPlayerAction(for player: inout Player) {
-        sleep(4)
         player.determinePossibleBets(highestPreviousBet: highestPreviousBet)
         //if there is no possibleBets than let the player withdraw AKA withdrawalAnimation
         guard player.possibleBets.count != 0 else {
@@ -292,11 +300,17 @@ class GameFieldViewController: UIViewController {
             print("its the next players turn")
             switch player.direction {
             case .down:
-                aiPlayerAction(for: &player2!)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    self.aiPlayerAction(for: &self.player2!)
+                }
             case .right:
-                aiPlayerAction(for: &player3!)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    self.aiPlayerAction(for: &self.player3!)
+                }
             case .up:
-                aiPlayerAction(for: &player4!)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    self.aiPlayerAction(for: &self.player4!)
+                }
             case .left:
                 self.actionsStackView.isHidden = false
             }
