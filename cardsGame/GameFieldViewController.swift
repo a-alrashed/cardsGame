@@ -55,7 +55,16 @@ enum PlayerOrder {
     case fourth
 }
 
-class Player {
+class Player: Hashable {
+    static func == (lhs: Player, rhs: Player) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+    }
+    
+    let id: String
     let name: String
     let image: UIImage
     var coins = 5000
@@ -71,7 +80,8 @@ class Player {
     var possibleBets = [Int]()
     var hasTopBet = false
     
-    init(name: String, image: UIImage, direction: Direction, isPlaying: Bool = false) {
+    init(id: String,name: String, image: UIImage, direction: Direction, isPlaying: Bool = false) {
+        self.id = id
         self.name = name
         self.image = image
         self.isPlaying = isPlaying
@@ -235,6 +245,44 @@ class GameFieldViewController: UIViewController {
         offerPickerView.reloadAllComponents()
     }
     
+    func calculateRoundWinner(from players: [Player]) -> Player {
+        var playersPoints = [Player:Int]()
+        for player in players {
+            player.seperateEqlueCards()
+            playersPoints.updateValue(player.calculateRoundPoints(), forKey: player)
+            print(player, player.calculateRoundPoints())
+        }
+        
+        
+        return playersPoints.sorted{ return $0.value > $1.value }.first!.key
+    }
+    
+    
+    fileprivate func endTheRound() {
+        let players = [
+            player1!,
+            player2!,
+            player3!,
+            player4!
+        ].filter { $0!.currentRoundBet > 0 }
+        
+        hideAllCardsAndBetBubbelsAnimation()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.presentAllCardsAnimation(for: players)
+            
+            
+            let theWinner = self.calculateRoundWinner(from: players)
+            print(theWinner.name)
+            theWinner.coins += self.highestPreviousBet
+            self.leaderboardTableView.reloadData()
+            
+            //... after all that allow the next round to begin
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+                self.startTheRound(self)
+            }
+        }
+    }
     
     func presentOffersView() {
         presentContentView(with: .offers)
@@ -252,36 +300,7 @@ class GameFieldViewController: UIViewController {
         
         //do some logic to determen the winner
         DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
-            let players = [
-                self.player1,
-                self.player2,
-                self.player3,
-                self.player4
-            ].filter { $0!.currentRoundBet > 0 }
-            
-            self.hideAllCardsAndBetBubbelsAnimation()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                for i in 0...3 {
-                    self.player1CardsImages[i].image = (self.player1?.cards[i].image)!
-                    self.player2CardsImages[i].image = (self.player2?.cards[i].image)!
-                    self.player3CardsImages[i].image = (self.player3?.cards[i].image)!
-                    self.player4CardsImages[i].image = (self.player4?.cards[i].image)!
-                }
-                
-                for player in players {
-                    for _ in 0...3 {
-                        self.presentCardAnimation(player: player!)
-                        player!.presentedCardsCounter += 1
-                    }
-                }
-            }
-            
-            //... after all that allow the next round to begin
-            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
-                self.startTheRound(self)
-            }
-            
+            self.endTheRound()
         }
         
         
@@ -462,6 +481,22 @@ class GameFieldViewController: UIViewController {
         }
     }
     
+    func presentAllCardsAnimation(for players: [Player]){
+        for i in 0...3 {
+            self.player1CardsImages[i].image = (self.player1?.cards[i].image)!
+            self.player2CardsImages[i].image = (self.player2?.cards[i].image)!
+            self.player3CardsImages[i].image = (self.player3?.cards[i].image)!
+            self.player4CardsImages[i].image = (self.player4?.cards[i].image)!
+        }
+        
+        for player in players {
+            for _ in 0...3 {
+                self.presentCardAnimation(player: player)
+                player.presentedCardsCounter += 1
+            }
+        }
+    }
+    
     func presentCardAnimation(player: Player) {
         guard player.presentedCardsCounter < 4 else { return }
         UIView.animate(withDuration: 0.3) {
@@ -614,41 +649,20 @@ class GameFieldViewController: UIViewController {
         highestPreviousBet = 0
         
         shuffleCards()
-        
-        player1!.seperateEqlueCards()
-        player2!.seperateEqlueCards()
-        player3!.seperateEqlueCards()
-        player4!.seperateEqlueCards()
-        print(player1!.name, player1!.calculateRoundPoints())
-        print(player2!.name, player2!.calculateRoundPoints())
-        print(player3!.name, player3!.calculateRoundPoints())
-        print(player4!.name, player4!.calculateRoundPoints())
-        
-        print("the winner is:", calculateRoundWinner())
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
             offersTableView.register(UINib(nibName: "OfferTableViewCell", bundle: nil), forCellReuseIdentifier: "offerCell")
         
-        player1 = Player(name: "Azzam", image: #imageLiteral(resourceName: "image6"), direction: .down)
-        player2 = Player(name: "Ahmad", image: #imageLiteral(resourceName: "image1"), direction: .right)
-        player3 = Player(name: "Omar", image: #imageLiteral(resourceName: "image5"), direction: .up)
-        player4 = Player(name: "Ammar", image: #imageLiteral(resourceName: "image2"), direction: .left)
+        player1 = Player(id: "A", name: "Azzam", image: #imageLiteral(resourceName: "image6"), direction: .down)
+        player2 = Player(id: "B", name: "Ahmad", image: #imageLiteral(resourceName: "image1"), direction: .right)
+        player3 = Player(id: "C", name: "Omar", image: #imageLiteral(resourceName: "image5"), direction: .up)
+        player4 = Player(id: "D", name: "Ammar", image: #imageLiteral(resourceName: "image2"), direction: .left)
         
         leaderboardArray = [player1!,player2!,player3!,player4!]
         contentViewTopConstraint.constant = view.frame.size.height
         
-    }
-    
-    func calculateRoundWinner() -> String {
-        let playersPoints = [
-            player1!.name: player1!.calculateRoundPoints(),
-            player2!.name: player2!.calculateRoundPoints(),
-            player3!.name: player3!.calculateRoundPoints(),
-            player4!.name: player4!.calculateRoundPoints()
-        ]
-        return playersPoints.sorted{ return $0.value > $1.value }.first!.key
     }
     
     
