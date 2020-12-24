@@ -245,7 +245,7 @@ class GameFieldViewController: UIViewController {
         offerPickerView.reloadAllComponents()
     }
     
-    func calculateRoundWinner(from players: [Player]) -> Player {
+    func calculateRoundWinner(from players: [Player]) {
         var playersPoints = [Player:Int]()
         for player in players {
             player.seperateEqlueCards()
@@ -253,8 +253,18 @@ class GameFieldViewController: UIViewController {
             print(player, player.calculateRoundPoints())
         }
         
+        let theWinner = playersPoints.sorted{ return $0.value > $1.value }.first!.key
+        for player in players {
+            if player == theWinner {
+                player.coins += self.highestPreviousBet
+                self.highestPreviousBet = 0
+            } else {
+                player.coins -= player.currentRoundBet
+            }
+            player.currentRoundBet = 0
+        }
         
-        return playersPoints.sorted{ return $0.value > $1.value }.first!.key
+        self.leaderboardTableView.reloadData()
     }
     
     
@@ -266,16 +276,19 @@ class GameFieldViewController: UIViewController {
             player4!
         ].filter { $0!.currentRoundBet > 0 }
         
+        // if no player entered the round then start the new round immediate
+        guard players.count != 0 else {
+            self.startTheRound(self)
+            return
+        }
+        
         hideAllCardsAndBetBubbelsAnimation()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.presentAllCardsAnimation(for: players)
             
             
-            let theWinner = self.calculateRoundWinner(from: players)
-            print(theWinner.name)
-            theWinner.coins += self.highestPreviousBet
-            self.leaderboardTableView.reloadData()
+            self.calculateRoundWinner(from: players)
             
             //... after all that allow the next round to begin
             DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
@@ -442,10 +455,6 @@ class GameFieldViewController: UIViewController {
         player3!.presentedCardsCounter = 0
         player4!.presentedCardsCounter = 0
         
-        player1!.currentRoundBet = 0
-        player2!.currentRoundBet = 0
-        player3!.currentRoundBet = 0
-        player4!.currentRoundBet = 0
         UIView.animate(withDuration: 0.3) {
             self.player1CardsImagesBottomConstraint[0].constant = -240
             self.player1CardsImagesBottomConstraint[1].constant = -240
@@ -644,9 +653,6 @@ class GameFieldViewController: UIViewController {
         //remove the old offers
         offersArray.removeAll()
         offersTableView.reloadData()
-        
-        //reset the highest Previous Bet to 0
-        highestPreviousBet = 0
         
         shuffleCards()
     }
