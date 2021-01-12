@@ -114,8 +114,9 @@ class Player: Hashable {
     
     func calculateRoundPoints() -> Int {
         var playerPoints = combination.rawValue
-        if let cardPints = eqlueCards.first?.first?.name.rawValue {
-            playerPoints += cardPints
+        
+        for combination in eqlueCards {
+            playerPoints += combination.first!.name.rawValue
         }
         
         for card in unEqlueCards {
@@ -250,7 +251,7 @@ class GameFieldViewController: UIViewController {
         for player in players {
             player.seperateEqlueCards()
             playersPoints.updateValue(player.calculateRoundPoints(), forKey: player)
-            print(player, player.calculateRoundPoints())
+            print(player.name, player.calculateRoundPoints())
         }
         
         let theWinner = playersPoints.sorted{ return $0.value > $1.value }.first!.key
@@ -895,6 +896,8 @@ extension GameFieldViewController: UITableViewDataSource, UITableViewDelegate {
                 let acceptAction = UIContextualAction(style: .normal, title: "accept") { (action, view, completionHandler) in
                     //make the accepted cell background green
                     self.offersArray[indexPath.row].state = .accepted
+                    self.withdrawalAnimation(for: self.offersArray[indexPath.row].sender)
+                    // subtract the offer 
                     self.offersTableView.reloadData()
                 }
                 acceptAction.image = #imageLiteral(resourceName: "accept")
